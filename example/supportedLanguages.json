@@ -1,0 +1,446 @@
+[
+  {
+    "languageCode": "af",
+    "displayName": "Afrikaans"
+  },
+  {
+    "languageCode": "sq",
+    "displayName": "Albanian"
+  },
+  {
+    "languageCode": "am",
+    "displayName": "Amharic"
+  },
+  {
+    "languageCode": "ar",
+    "displayName": "Arabic"
+  },
+  {
+    "languageCode": "hy",
+    "displayName": "Armenian"
+  },
+  {
+    "languageCode": "az",
+    "displayName": "Azerbaijani"
+  },
+  {
+    "languageCode": "eu",
+    "displayName": "Basque"
+  },
+  {
+    "languageCode": "be",
+    "displayName": "Belarusian"
+  },
+  {
+    "languageCode": "bn",
+    "displayName": "Bengali"
+  },
+  {
+    "languageCode": "bs",
+    "displayName": "Bosnian"
+  },
+  {
+    "languageCode": "bg",
+    "displayName": "Bulgarian"
+  },
+  {
+    "languageCode": "ca",
+    "displayName": "Catalan"
+  },
+  {
+    "languageCode": "ceb",
+    "displayName": "Cebuano"
+  },
+  {
+    "languageCode": "ny",
+    "displayName": "Chichewa"
+  },
+  {
+    "languageCode": "zh-CN",
+    "displayName": "Chinese (Simplified)"
+  },
+  {
+    "languageCode": "zh-TW",
+    "displayName": "Chinese (Traditional)"
+  },
+  {
+    "languageCode": "co",
+    "displayName": "Corsican"
+  },
+  {
+    "languageCode": "hr",
+    "displayName": "Croatian"
+  },
+  {
+    "languageCode": "cs",
+    "displayName": "Czech"
+  },
+  {
+    "languageCode": "da",
+    "displayName": "Danish"
+  },
+  {
+    "languageCode": "nl",
+    "displayName": "Dutch"
+  },
+  {
+    "languageCode": "en",
+    "displayName": "English"
+  },
+  {
+    "languageCode": "eo",
+    "displayName": "Esperanto"
+  },
+  {
+    "languageCode": "et",
+    "displayName": "Estonian"
+  },
+  {
+    "languageCode": "tl",
+    "displayName": "Filipino"
+  },
+  {
+    "languageCode": "fi",
+    "displayName": "Finnish"
+  },
+  {
+    "languageCode": "fr",
+    "displayName": "French"
+  },
+  {
+    "languageCode": "fy",
+    "displayName": "Frisian"
+  },
+  {
+    "languageCode": "gl",
+    "displayName": "Galician"
+  },
+  {
+    "languageCode": "ka",
+    "displayName": "Georgian"
+  },
+  {
+    "languageCode": "de",
+    "displayName": "German"
+  },
+  {
+    "languageCode": "el",
+    "displayName": "Greek"
+  },
+  {
+    "languageCode": "gu",
+    "displayName": "Gujarati"
+  },
+  {
+    "languageCode": "ht",
+    "displayName": "Haitian Creole"
+  },
+  {
+    "languageCode": "ha",
+    "displayName": "Hausa"
+  },
+  {
+    "languageCode": "haw",
+    "displayName": "Hawaiian"
+  },
+  {
+    "languageCode": "iw",
+    "displayName": "Hebrew"
+  },
+  {
+    "languageCode": "hi",
+    "displayName": "Hindi"
+  },
+  {
+    "languageCode": "hmn",
+    "displayName": "Hmong"
+  },
+  {
+    "languageCode": "hu",
+    "displayName": "Hungarian"
+  },
+  {
+    "languageCode": "is",
+    "displayName": "Icelandic"
+  },
+  {
+    "languageCode": "ig",
+    "displayName": "Igbo"
+  },
+  {
+    "languageCode": "id",
+    "displayName": "Indonesian"
+  },
+  {
+    "languageCode": "ga",
+    "displayName": "Irish"
+  },
+  {
+    "languageCode": "it",
+    "displayName": "Italian"
+  },
+  {
+    "languageCode": "ja",
+    "displayName": "Japanese"
+  },
+  {
+    "languageCode": "jw",
+    "displayName": "Javanese"
+  },
+  {
+    "languageCode": "kn",
+    "displayName": "Kannada"
+  },
+  {
+    "languageCode": "kk",
+    "displayName": "Kazakh"
+  },
+  {
+    "languageCode": "km",
+    "displayName": "Khmer"
+  },
+  {
+    "languageCode": "rw",
+    "displayName": "Kinyarwanda"
+  },
+  {
+    "languageCode": "ko",
+    "displayName": "Korean"
+  },
+  {
+    "languageCode": "ku",
+    "displayName": "Kurdish (Kurmanji)"
+  },
+  {
+    "languageCode": "ky",
+    "displayName": "Kyrgyz"
+  },
+  {
+    "languageCode": "lo",
+    "displayName": "Lao"
+  },
+  {
+    "languageCode": "la",
+    "displayName": "Latin"
+  },
+  {
+    "languageCode": "lv",
+    "displayName": "Latvian"
+  },
+  {
+    "languageCode": "lt",
+    "displayName": "Lithuanian"
+  },
+  {
+    "languageCode": "lb",
+    "displayName": "Luxembourgish"
+  },
+  {
+    "languageCode": "mk",
+    "displayName": "Macedonian"
+  },
+  {
+    "languageCode": "mg",
+    "displayName": "Malagasy"
+  },
+  {
+    "languageCode": "ms",
+    "displayName": "Malay"
+  },
+  {
+    "languageCode": "ml",
+    "displayName": "Malayalam"
+  },
+  {
+    "languageCode": "mt",
+    "displayName": "Maltese"
+  },
+  {
+    "languageCode": "mi",
+    "displayName": "Maori"
+  },
+  {
+    "languageCode": "mr",
+    "displayName": "Marathi"
+  },
+  {
+    "languageCode": "mn",
+    "displayName": "Mongolian"
+  },
+  {
+    "languageCode": "my",
+    "displayName": "Myanmar (Burmese)"
+  },
+  {
+    "languageCode": "ne",
+    "displayName": "Nepali"
+  },
+  {
+    "languageCode": "no",
+    "displayName": "Norwegian"
+  },
+  {
+    "languageCode": "or",
+    "displayName": "Odia (Oriya)"
+  },
+  {
+    "languageCode": "ps",
+    "displayName": "Pashto"
+  },
+  {
+    "languageCode": "fa",
+    "displayName": "Persian"
+  },
+  {
+    "languageCode": "pl",
+    "displayName": "Polish"
+  },
+  {
+    "languageCode": "pt",
+    "displayName": "Portuguese"
+  },
+  {
+    "languageCode": "pa",
+    "displayName": "Punjabi"
+  },
+  {
+    "languageCode": "ro",
+    "displayName": "Romanian"
+  },
+  {
+    "languageCode": "ru",
+    "displayName": "Russian"
+  },
+  {
+    "languageCode": "sm",
+    "displayName": "Samoan"
+  },
+  {
+    "languageCode": "gd",
+    "displayName": "Scots Gaelic"
+  },
+  {
+    "languageCode": "sr",
+    "displayName": "Serbian"
+  },
+  {
+    "languageCode": "st",
+    "displayName": "Sesotho"
+  },
+  {
+    "languageCode": "sn",
+    "displayName": "Shona"
+  },
+  {
+    "languageCode": "sd",
+    "displayName": "Sindhi"
+  },
+  {
+    "languageCode": "si",
+    "displayName": "Sinhala"
+  },
+  {
+    "languageCode": "sk",
+    "displayName": "Slovak"
+  },
+  {
+    "languageCode": "sl",
+    "displayName": "Slovenian"
+  },
+  {
+    "languageCode": "so",
+    "displayName": "Somali"
+  },
+  {
+    "languageCode": "es",
+    "displayName": "Spanish"
+  },
+  {
+    "languageCode": "su",
+    "displayName": "Sundanese"
+  },
+  {
+    "languageCode": "sw",
+    "displayName": "Swahili"
+  },
+  {
+    "languageCode": "sv",
+    "displayName": "Swedish"
+  },
+  {
+    "languageCode": "tg",
+    "displayName": "Tajik"
+  },
+  {
+    "languageCode": "ta",
+    "displayName": "Tamil"
+  },
+  {
+    "languageCode": "tt",
+    "displayName": "Tatar"
+  },
+  {
+    "languageCode": "te",
+    "displayName": "Telugu"
+  },
+  {
+    "languageCode": "th",
+    "displayName": "Thai"
+  },
+  {
+    "languageCode": "tr",
+    "displayName": "Turkish"
+  },
+  {
+    "languageCode": "tk",
+    "displayName": "Turkmen"
+  },
+  {
+    "languageCode": "uk",
+    "displayName": "Ukrainian"
+  },
+  {
+    "languageCode": "ur",
+    "displayName": "Urdu"
+  },
+  {
+    "languageCode": "ug",
+    "displayName": "Uyghur"
+  },
+  {
+    "languageCode": "uz",
+    "displayName": "Uzbek"
+  },
+  {
+    "languageCode": "vi",
+    "displayName": "Vietnamese"
+  },
+  {
+    "languageCode": "cy",
+    "displayName": "Welsh"
+  },
+  {
+    "languageCode": "xh",
+    "displayName": "Xhosa"
+  },
+  {
+    "languageCode": "yi",
+    "displayName": "Yiddish"
+  },
+  {
+    "languageCode": "yo",
+    "displayName": "Yoruba"
+  },
+  {
+    "languageCode": "zu",
+    "displayName": "Zulu"
+  },
+  {
+    "languageCode": "he",
+    "displayName": "Hebrew"
+  },
+  {
+    "languageCode": "zh",
+    "displayName": "Chinese (Simplified)"
+  }
+]

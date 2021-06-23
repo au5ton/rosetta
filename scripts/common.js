@@ -8,8 +8,10 @@ module.exports = {
   minifyIdentifiers: false,
   minifySyntax: true,
   minifyWhitespace: true,
+  loader: {
+    '.svg': 'file'
+  },
   format: 'iife',
   platform: 'browser',
   target: 'es6',
-  outdir: 'dist',
 }

@@ -37,15 +37,14 @@ const styles = {
   `,
 };
 
-export function Banner(props: { count: number }) {
-  const { count } = props;
+export function Banner() {
 
   return (
     <>
       <Global styles={styles.global} />
       <div className={`${styles.frame} skiptranslate`}>
         <div className={styles.banner}>
-          <h1>Hello World</h1>
+          <span>Hello, Banner!</span>
           {/* <table style={{ width: '100%', height: '100%', border: 0 }} cellSpacing="0" cellPadding="0">
             <tbody>
               <tr style={{ verticalAlign: 'middle' }}>

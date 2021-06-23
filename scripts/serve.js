@@ -1,5 +1,5 @@
 require('esbuild').serve({
-  servedir: 'dist',
+  servedir: 'example',
 }, {
   ...require('./common'),
   incremental: true,

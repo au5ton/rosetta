@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div id="google_translate_element"></div>
-    <div id="translate_widget_element"></div>
     <header>
       <h1 class="mega-ns">HTML</h1>
       <h2 class="Every html element in one place. Just waiting to be styled.">HTML</h2>
@@ -36,6 +34,8 @@
           <li> <a href="#" title="Careers">Careers</a> </li>
         </ul>
       </nav>
+      <div id="google_translate_element"></div>
+      <div id="translate_widget_element"></div>
     </header>
     <section>
       <h1 class="other-class">Headings &amp; Copy</h1>
@@ -423,7 +423,13 @@
     //   new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     // }
     function widgetTranslateElementInit() {
-      au5ton.translateWidget({pageLanguage: 'en'}, 'translate_widget_element');
+      au5ton.translateWidget({
+        pageLanguage: 'en',
+        attributionImageUrl: '/powered-by.svg',
+        endpoints: {
+          supportedLanguages: '/supportedLanguages.json'
+        }
+      }, 'translate_widget_element');
     }
     </script>
 

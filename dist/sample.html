@@ -425,8 +425,11 @@
     function widgetTranslateElementInit() {
       au5ton.translateWidget({
         pageLanguage: 'en',
+        chunkSize: 50,
         attributionImageUrl: 'powered-by.svg',
         endpoints: {
+          //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
+          //translate: 'http://wlinux.wsl:3000/api/v3/translate'
           supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
           translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
         }

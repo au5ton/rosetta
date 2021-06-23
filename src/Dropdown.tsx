@@ -3,8 +3,8 @@ import { createPortal } from 'react-dom'
 import { css } from '@emotion/css'
 import useSWR from 'swr'
 import { Banner } from './Banner'
-import { DropdownOptions, SupportedLanguage } from './models'
-import { textNodesUnder } from './util'
+import { DropdownOptions, SupportedLanguage, TranslatedNode } from './models'
+import { chunkedArray, textNodesUnder } from './util'
 
 const styles = {
   wrap: css`
@@ -27,7 +27,8 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const [supportedLanguages, setSupportedLanguages] = useState<SupportedLanguage[]>([ { displayName: 'Select Language', languageCode: '' } ]);
   // for UI
   const [language, setLanguage] = useState('')
-  const showBanner = language !== options.pageLanguage && language !== ''
+  const showBanner = language !== options.pageLanguage && language !== '';
+  const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
 
   // update <select> once the languages load for the first time
   useEffect(() => {
@@ -35,6 +36,21 @@ export function Dropdown(props: { options: DropdownOptions }) {
       setSupportedLanguages(x => [...x, ...data]);
     }
   }, [data])
+
+  // initialize translatedNodes
+  useEffect(() => {
+    // if we haven't done a translation before
+    if(translatedNodes.length === 0) {
+      // get all leaf text nodes
+      const nodes = textNodesUnder(document.body);
+      // compose our result
+      setTranslatedNodes(nodes.map(node => ({
+        originalText: node.nodeValue ?? '',
+        translatedText: undefined,
+        node
+      })));
+    }
+  }, [translatedNodes]);
 
   // whenever a new language option is selected
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,9 +66,54 @@ export function Dropdown(props: { options: DropdownOptions }) {
       // move the native language to the top of the list
       x.unshift(x.splice(x.findIndex(e => e.languageCode === options.pageLanguage), 1)[0]);
       return x;
-    })
+    });
+    translate(options.pageLanguage, e.target.value);
   }
 
+  // actually do the translation
+  const translate = async (from: string, to: string) => {
+    // confirm that we've done a translation before
+    if(translatedNodes.length > 0) {
+      console.table(translatedNodes) 
+      // if we're going back to the native language
+      if(from === to) {
+        // copy back the original text
+        for(let e of translatedNodes) {
+          e.node.nodeValue = e.originalText;
+        }
+      }
+      else {
+        // perform translations in chunks
+        for(let chunk of chunkedArray(translatedNodes, 10)) {
+          const res = await fetch(`${options.endpoints.translate}?from=${from}&to=${to}`, { 
+            method: 'POST',
+            body: JSON.stringify(chunk.map(e => e.originalText)),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          });
+          const data = await res.json() as string[];
+          for(let i = 0; i < chunk.length; i++) {
+            // actually do translating
+            chunk[i].translatedText = data[i];
+            chunk[i].node.nodeValue = chunk[i].translatedText ?? '';
+          }
+        }
+      }
+    }
+    if(translatedNodes.length === 0) {
+      // get all leaf text nodes
+      const nodes = textNodesUnder(document.body);
+      // compose our result
+      setTranslatedNodes(nodes.map(node => ({
+        originalText: node.nodeValue ?? '',
+          translatedText: undefined,
+          node
+      })));
+    }
+  }
+
+  // for debugging
   const handleClick = () => {
     const nodes = textNodesUnder(document.body);
     nodes.forEach(e => {

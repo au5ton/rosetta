@@ -33,7 +33,7 @@ const customFilter: NodeFilter = {
   }
 }
 
-function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => boolean) {
+export function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => boolean) {
   if(node.parentElement !== null && node.parentElement !== undefined) {
     var n = node.parentElement;
     while(n.parentElement !== null && n.parentElement !== undefined) {
@@ -53,4 +53,37 @@ export function textNodesUnder(el: HTMLElement){
   var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT, customFilter);
   while(n=walk.nextNode()) a.push(n);
   return a;
+}
+
+/**
+ * From: https://dev.to/jorik/country-code-to-flag-emoji-a21
+ */
+export function getFlagEmoji(countryCode: string) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map(char =>  127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
+}
+
+/**
+ * From: https://stackoverflow.com/a/37826698
+ */
+export function chunkedArray<T>(inputArray: T[], perChunk: number): T[][] {
+  // var perChunk = 2 // items per chunk    
+  // var inputArray = ['a','b','c','d','e']
+
+  var result = inputArray.reduce<T[][]>((resultArray, item, index) => { 
+    const chunkIndex = Math.floor(index/perChunk)
+
+    if(!resultArray[chunkIndex]) {
+      resultArray[chunkIndex] = [] // start a new chunk
+    }
+
+    resultArray[chunkIndex].push(item)
+
+    return resultArray
+  }, [])
+
+  return result;
 }

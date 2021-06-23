@@ -13,7 +13,7 @@ const customFilter: NodeFilter = {
    */
   acceptNode(node: Node): number {
     // skip all `.skiptranslate` blocks
-    if(node.parentElement?.className.includes('skiptranslate'))  {
+    if(anyParentSatisfies(node, e => e.className.includes('skiptranslate'))) {
       return NodeFilter.FILTER_REJECT
     }
     // skip nodes that have children
@@ -32,6 +32,21 @@ const customFilter: NodeFilter = {
     return NodeFilter.FILTER_ACCEPT
   }
 }
+
+function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => boolean) {
+  if(node.parentElement !== null && node.parentElement !== undefined) {
+    var n = node.parentElement;
+    while(n.parentElement !== null && n.parentElement !== undefined) {
+      if(filter(n)) {
+        return true;
+      }
+      n = n.parentElement;
+    }
+  }
+  return false;
+}
+
+anyParentSatisfies({} as any, e => e.className.includes('skiptranslate'))
 
 /**
  * From: https://stackoverflow.com/a/10730777

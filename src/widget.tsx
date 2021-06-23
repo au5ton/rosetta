@@ -3,14 +3,14 @@
 //import Dropdown from './Dropdown.vue';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Dropdown } from './Dropdown'
+import { App } from './App'
 
 // {pageLanguage: 'en'}, 'google_translate_element'
 
 export function initHook(options: { pageLanguage: string }, mountLocation: string) {
   console.log(options);
   ReactDOM.render(
-    <Dropdown />,
+    <App />,
     document.getElementById(mountLocation)
   );
 }

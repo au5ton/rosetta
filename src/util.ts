@@ -1,5 +1,5 @@
 
-const forbiddenTags = ['script', 'pre', 'kbd'];
+const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
 
 const customFilter: NodeFilter = {
   /**

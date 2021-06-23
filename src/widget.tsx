@@ -5,7 +5,7 @@ import { DropdownOptions } from './models';
 
 export function initHook(options: DropdownOptions, mountLocation: string) {
   console.log(options);
-  options.chunkSize = 10;
+  if(options.chunkSize === undefined) options.chunkSize = 10;
   ReactDOM.render(
     <Dropdown options={options} />,
     document.getElementById(mountLocation)

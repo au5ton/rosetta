@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: Translate Widget Back-end API
+  description: This defines the format and usage that the translate widget is expecting.
+  version: 1.0.0
+externalDocs:
+  description: GitHub repo
+  url: https://github.com/au5ton/translate-widget
+servers:
+- url: https://YOUR_SERVER_HERE.com/
+- url: https://google-translate-sample.vercel.app/api/v2
+- url: https://google-translate-sample.vercel.app/api/v3
+paths:
+  /translate:
+    post:
+      summary: Translate some text
+      operationId: translate
+      parameters:
+      - name: to
+        in: query
+        description: The target language to translate to
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: The source language to translate from
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: The format that the provided text is in, either `text` or `html`.
+        required: false
+        schema:
+          type: string
+          default: 'text'
+      requestBody:
+        description: The text that is intended to be translated
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
+  /supportedLanguages:
+    get:
+      summary: Gets the list of supported languages for translation
+      description: ''
+      operationId: supportedLanguages
+      parameters:
+      - name: target
+        in: query
+        description: The native language in which to present the supported languages
+        required: false
+        schema:
+          type: string
+          default: 'en'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupportedLanguage'
+        400:
+          description: Invalid status value
+          content: {}
+components:
+  schemas:
+    SupportedLanguage:
+      type: object
+      properties:
+        languageCode:
+          type: string
+        displayName:
+          type: string

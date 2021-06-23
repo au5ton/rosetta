@@ -43,7 +43,7 @@ The schema/model that a separate API server must implement is detailed below.
       au5ton.translateWidget({
         pageLanguage: 'en',
         chunkSize: 50,
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.0/dist/powered-by.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.1/dist/powered-by.svg',
         endpoints: {
           supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
           translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
@@ -51,7 +51,7 @@ The schema/model that a separate API server must implement is detailed below.
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.0/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end

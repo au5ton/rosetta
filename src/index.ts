@@ -1,14 +1,16 @@
-
+// Import polyfills
 import 'core-js/stable';
 import 'whatwg-fetch';
 
-alert('hello22');
-let x: number[] = [2];
-console.log(x.includes(2));
-let str = 'hello22';
-console.log(str);
+// Import user code
+import { initHook } from './widget'
 
-const hello = (window as any)['something23'] ?? "hello";
-console.log(hello)
-
-document.body
+// Modify the global namespace
+declare global {
+  var au5ton: {
+    translateWidget: typeof initHook
+  };
+}
+window.au5ton = {
+  translateWidget: initHook
+};

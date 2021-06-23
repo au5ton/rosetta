@@ -4,6 +4,7 @@ import { css } from '@emotion/css'
 import useSWR from 'swr'
 import { Banner } from './Banner'
 import { DropdownOptions, SupportedLanguage } from './models'
+import { textNodesUnder } from './util'
 
 const styles = {
   wrap: css`
@@ -52,6 +53,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
     })
   }
 
+  const handleClick = () => {
+    const nodes = textNodesUnder(document.body);
+    nodes.forEach(e => {
+      if(e.parentElement) {
+        e.parentElement.style.backgroundColor = 'red';
+      }
+    });
+  }
+
   return (
     <div className={`${styles.wrap} skiptranslate`}>
       <select value={language} onChange={handleChange} className={styles.gadgetSelect} aria-label="Language Translate Widget">
@@ -62,6 +72,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
       <img className={styles.attribution} src={options.attributionImageUrl} />
       <p>language: {language}</p>
       <p>prop language: {options.pageLanguage}</p>
+      <button onClick={handleClick}>Highlight Nodes</button>
       {showBanner ? createPortal(<Banner />, document.body) : ''}
     </div>
   );

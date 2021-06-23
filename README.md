@@ -64,3 +64,11 @@ To preview this OpenAPI 3.0 spec, open [petstore.swagger.io](https://petstore.sw
 It should look like this:
 
 ![swagger ui](img/swagger_ui.png)
+
+
+## Examples
+
+Here are some example pages:
+
+- HTML markup with dummy text: https://au5ton.github.io/translate-widget/dist/sample.html
+- HTML markup with English sample text: https://au5ton.github.io/translate-widget/dist/constitution.html

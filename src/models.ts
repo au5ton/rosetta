@@ -4,6 +4,7 @@ export interface DropdownOptions {
   attributionImageUrl: string;
   endpoints: {
     supportedLanguages: string;
+    translate: string;
   }
 }
 

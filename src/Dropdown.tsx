@@ -21,7 +21,7 @@ const styles = {
 export function Dropdown(props: { options: DropdownOptions }) {
   const { options } = props
   // fetch the supported languages by our provider
-  const { data } = useSWR<SupportedLanguage[]>(options.endpoints.supportedLanguages);
+  const { data } = useSWR<SupportedLanguage[]>(`${options.endpoints.supportedLanguages}?target=${options.pageLanguage}`);
   // store the supported languages seperately from the API call
   const [supportedLanguages, setSupportedLanguages] = useState<SupportedLanguage[]>([ { displayName: 'Select Language', languageCode: '' } ]);
   // for UI

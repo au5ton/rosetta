@@ -32,10 +32,10 @@
           <li> <a href="#" title="Careers">Careers</a> </li>
         </ul>
       </nav>
-      <h2 style="color: tomato">Custom Translate widget</h2>
+      <h2 style="color: tomato">Real Google Translate widget</h2>
       <div id="google_translate_element"></div>
       <div id="translate_widget_element"></div>
-      <p><a href="alt.html">Compare against how the real Google Translate widget works</a></p>
+      <p><a href="sample.html">Compare against how my custom substitute works</a></p>
     </header>
     <section>
       <h1 class="other-class">Headings &amp; Copy</h1>
@@ -419,22 +419,22 @@
     
 
     <script type="text/javascript">
-    // function googleTranslateElementInit() {
-    //   new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-    // }
-    function widgetTranslateElementInit() {
-      au5ton.translateWidget({
-        pageLanguage: 'en',
-        attributionImageUrl: 'powered-by.svg',
-        endpoints: {
-          supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
-          translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
-        }
-      }, 'translate_widget_element');
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     }
+    // function widgetTranslateElementInit() {
+    //   au5ton.translateWidget({
+    //     pageLanguage: 'en',
+    //     attributionImageUrl: 'powered-by.svg',
+    //     endpoints: {
+    //       supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
+    //       translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
+    //     }
+    //   }, 'translate_widget_element');
+    // }
     </script>
 
-    <!-- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
-    <script src="index.js" onload="widgetTranslateElementInit()"></script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!-- <script src="index.js" onload="widgetTranslateElementInit()"></script> -->
   </body>
 </html>

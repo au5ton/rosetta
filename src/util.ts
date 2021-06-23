@@ -46,8 +46,6 @@ function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => boolean) 
   return false;
 }
 
-anyParentSatisfies({} as any, e => e.className.includes('skiptranslate'))
-
 /**
  * From: https://stackoverflow.com/a/10730777
  */

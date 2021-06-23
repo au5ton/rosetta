@@ -59,7 +59,7 @@ The schema/model that a separate API server must implement is detailed below.
 Your own back-end server that implements 2 endpoints with the format detailed in [openapi.yaml](openapi.yaml) using the [OpenAPI 3.0 spec](https://swagger.io/specification/).
 
 To preview this OpenAPI 3.0 spec, open [petstore.swagger.io](https://petstore.swagger.io/#/). At the top right, enter the following URL and press "Explore":
-- https://au5ton.github.io/translate-widget/openapi.yaml
+- `https://au5ton.github.io/translate-widget/openapi.yaml`
 
 It should look like this:
 
@@ -70,5 +70,5 @@ It should look like this:
 
 Here are some example pages:
 
-- HTML markup with dummy text: https://au5ton.github.io/translate-widget/dist/sample.html
-- HTML markup with English sample text: https://au5ton.github.io/translate-widget/dist/constitution.html
+- HTML markup with dummy text: [https://au5ton.github.io/translate-widget/dist/sample.html](https://au5ton.github.io/translate-widget/dist/sample.html)
+- HTML markup with English sample text: [https://au5ton.github.io/translate-widget/dist/constitution.html](https://au5ton.github.io/translate-widget/dist/constitution.html)

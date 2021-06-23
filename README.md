@@ -57,3 +57,10 @@ The schema/model that a separate API server must implement is detailed below.
 ### Back-end
 
 Your own back-end server that implements 2 endpoints with the format detailed in [openapi.yaml](openapi.yaml) using the [OpenAPI 3.0 spec](https://swagger.io/specification/).
+
+To preview this OpenAPI 3.0 spec, open [petstore.swagger.io](https://petstore.swagger.io/#/). At the top right, enter the following URL and press "Explore":
+- https://au5ton.github.io/translate-widget/openapi.yaml
+
+It should look like this:
+
+![swagger ui](img/swagger_ui.png)

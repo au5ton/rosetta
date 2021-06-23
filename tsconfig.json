@@ -3,7 +3,8 @@
   "include": ["src", "types"],
   "compilerOptions": {
     "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "es2020"],
+    "target": "ES6",
     "importHelpers": true,
     // output .d.ts declaration files for consumers
     "declaration": true,
@@ -31,5 +32,7 @@
     "forceConsistentCasingInFileNames": true,
     // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
     "noEmit": true,
+    // Recommended by esbuild, see: https://esbuild.github.io/content-types/#isolated-modules
+    "isolatedModules": true,
   }
 }

@@ -5,12 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <!-- Set the title of your site here -->
-    <title>HTML Patterns</title>
+    <title>Sample HTML</title>
     <meta name="author" content="mrmrs">
     <meta name="description" content="Common HTML5 patterns I use.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <div id="google_translate_element"></div>
+    <div id="translate_widget_element"></div>
     <header>
       <h1 class="mega-ns">HTML</h1>
       <h2 class="Every html element in one place. Just waiting to be styled.">HTML</h2>
@@ -414,6 +416,18 @@
         <address>email@email.com</address>
       </footer>
     </section>
+    
 
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+    function widgetTranslateElementInit() {
+      
+    }
+    </script>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="index.js" onload="widgetTranslateElementInit()"></script>
   </body>
 </html>

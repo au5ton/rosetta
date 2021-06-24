@@ -1,14 +1,5 @@
 
 /**
- * Internal reference used to hot-swap text
- */
-export interface TranslatedNode {
-  originalText: string;
-  translatedText: string | undefined;
-  node: Node;
-}
-
-/**
  * The arguments when launching the widget
  */
 export interface DropdownOptions {
@@ -16,7 +7,7 @@ export interface DropdownOptions {
   pageLanguage: string;
   // The URL of the image listed below the dropdown element
   // Used for adhering to the Google Translate API attribution requirements
-  attributionImageUrl: string;
+  attributionImageUrl: string | undefined;
   /**
    * Translations are done in batches instead of all at once.
    * Batches are made to prevent an API error of translating too many
@@ -41,3 +32,11 @@ export interface SupportedLanguage {
   displayName: string;
 }
 
+/**
+ * Internal reference used to hot-swap text
+ */
+ export interface TranslatedNode {
+  originalText: string;
+  translatedText: string | undefined;
+  node: Node;
+}

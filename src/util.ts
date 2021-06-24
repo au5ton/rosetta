@@ -33,6 +33,9 @@ const customFilter: NodeFilter = {
   }
 }
 
+/**
+ * Returns true if any parent satisfies the condition, otherwise false
+ */
 export function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => boolean) {
   if(node.parentElement !== null && node.parentElement !== undefined) {
     var n = node.parentElement;
@@ -86,4 +89,34 @@ export function chunkedArray<T>(inputArray: T[], perChunk: number): T[][] {
   }, [])
 
   return result;
+}
+
+
+/**
+ * Extract the value from an object by a key (or nested keys), and return a default value if that value is missing
+ */
+export function extract(obj: {[key: string]: any}, key: string | string[], defaultValue: any): any {
+  if(Array.isArray(key)) {
+    if(key.length === 0) {
+      throw `This shouldn't happen`;
+    }
+    if(key.length === 1) {
+      // Extract this only key left
+      return extract(obj, key[0], defaultValue);
+    }
+    else if(key.length > 1) {
+      // If current key doesn't exist, return defaultValue
+      if(obj[key[0]] === undefined) {
+        return defaultValue;
+      }
+      else {
+        // Otherwise, recurse to next key
+        return extract(obj[key[0]], key.slice(1), defaultValue)
+      }
+    }
+  }
+  else {
+    // If value is nullish, return defaultValue instead
+    return (obj[key] === undefined || obj[key] === null) ? defaultValue : obj[key];
+  }
 }

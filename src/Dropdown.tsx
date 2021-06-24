@@ -130,7 +130,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
           supportedLanguages.map(e => <option key={e.languageCode} value={e.languageCode}>{e.displayName}</option>)
         }
       </select>
-      <img className={styles.attribution} src={options.attributionImageUrl} />
+      { options.attributionImageUrl ? <img className={styles.attribution} src={options.attributionImageUrl} /> : <></>}
       <p>language: {language}</p>
       <p>prop language: {options.pageLanguage}</p>
       <button onClick={handleClick}>Highlight Nodes</button>

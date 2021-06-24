@@ -11,6 +11,7 @@ export function initHook(args: any, mountLocation: string) {
     pageLanguage: extract(args, 'pageLanguage', 'en'),
     chunkSize: extract(args, 'chunkSize', 10),
     attributionImageUrl: extract(args, 'attributionImageUrl', undefined),
+    preferredSupportedLanguages: extract(args, 'preferredSupportedLanguages', []),
     endpoints: {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'
@@ -18,6 +19,8 @@ export function initHook(args: any, mountLocation: string) {
       translate: extract(args, ['endpoints', 'translate'], '')
     }
   };
+  // for debugging
+  console.log(options)
   // Check if real endpoints were provided
   if(options.endpoints.supportedLanguages === '') throw `Improper supportedLanguages endpoint provided: '${options.endpoints.supportedLanguages}'`;
   if(options.endpoints.translate === '') throw `Improper translate endpoint provided: '${options.endpoints.translate}'`;

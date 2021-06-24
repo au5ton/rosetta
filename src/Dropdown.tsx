@@ -32,8 +32,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
 
   // update <select> once the languages load for the first time
   useEffect(() => {
+    // this condition should only happen on the first load
     if(data !== undefined && supportedLanguages.length === 1) {
-      setSupportedLanguages(x => [...x, ...data]);
+      // if we only want a handful of languages to show instead of the entire list
+      if(options.preferredSupportedLanguages.length > 1) {
+        setSupportedLanguages(x => [...x, ...data.filter(e => options.preferredSupportedLanguages.includes(e.languageCode))]);
+      }
+      else {
+        setSupportedLanguages(x => [...x, ...data]);
+      }
     }
   }, [data])
 

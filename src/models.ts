@@ -5,6 +5,9 @@
 export interface DropdownOptions {
   // The source language of the document
   pageLanguage: string;
+  // Limit the number of supported languages to only those found in this array
+  // The array should contain the languageCode which corresponds to the intended language
+  preferredSupportedLanguages: string[];
   // The URL of the image listed below the dropdown element
   // Used for adhering to the Google Translate API attribution requirements
   attributionImageUrl: string | undefined;

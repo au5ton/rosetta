@@ -18,6 +18,8 @@ The goal of this project is to revive the simple "plug and play" usage of the le
 
 ## Limitations
 
+### Back-end not included
+
 The code available in this widget details the UI portion of the widget. **However, a separate API server must be implemented and maintained by those who wish to utilitze this widget.**
 
 Translation APIs aren't free, but a sample API server is available for prototyping. **I make no guarantees that this API server will remain active. Don't rely on this API server in production.**
@@ -26,6 +28,10 @@ Sample API server:
 - https://github.com/au5ton/google-translate-sample
 
 The schema/model that a separate API server must implement is detailed below.
+
+### Browser support
+
+Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://github.com/evanw/esbuild/issues/297) support for ES5 is only partial. To see which browsers this affects, see [caniuse.com/es6](https://caniuse.com/es6). In our TypeScript codebase, we utilize [core-js](https://github.com/zloirock/core-js) and [whatwg-fetch](https://github.com/github/fetch) to polyfill newer JavaScript features to older browsers.
 
 ## Usage
 

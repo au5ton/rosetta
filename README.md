@@ -91,5 +91,5 @@ It should look like this:
 
 Here are some example pages:
 
-- HTML markup with dummy text: [https://au5ton.github.io/translate-widget/dist/sample.html](https://au5ton.github.io/translate-widget/dist/sample.html)
-- HTML markup with English sample text: [https://au5ton.github.io/translate-widget/dist/constitution.html](https://au5ton.github.io/translate-widget/dist/constitution.html)
+- Sample 1: [https://au5ton.github.io/translate-widget/dist/sample.html](https://au5ton.github.io/translate-widget/dist/sample.html)
+- Sample 2: [https://au5ton.github.io/translate-widget/dist/constitution.html](https://au5ton.github.io/translate-widget/dist/constitution.html)

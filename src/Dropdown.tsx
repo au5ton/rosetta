@@ -29,6 +29,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   // for UI
   const [language, setLanguage] = useState('');
   const [showBanner, setShowBanner] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
   const bodyRef = useRef(document.body);
   
@@ -178,6 +179,16 @@ export function Dropdown(props: { options: DropdownOptions }) {
   }, [data])
 
   /**
+   * Respond to changes in language
+   */
+  useEffect(() => {
+    console.log('language changed')
+    if(language !== '' && options.pageLanguage !== language) {
+      setShowBanner(true);
+    }
+  }, [language])
+
+  /**
    * Initialize translatedNodes and repopulate translations if they are missing
    * This pairs with handleDocumentMutation
    */
@@ -217,6 +228,8 @@ export function Dropdown(props: { options: DropdownOptions }) {
           // if any translations need to be fetched, do them
           // prevent infinite loop because we'll be setting the state
           if(needsTranslating.length > 0) {
+            // we're about to do a bunch of stuff, let's put up a loading spinner
+            setIsLoading(true);
             // mark these nodes as "in progress", so our chunked changes don't issue duplicate requests
             setTranslatedNodes(previous => {
               const results = previous.slice();
@@ -252,8 +265,8 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 }
                 return results;
               });
-              
             }
+            setIsLoading(false);
           }
         })();
 
@@ -276,15 +289,6 @@ export function Dropdown(props: { options: DropdownOptions }) {
       }
     }
   }, [language, translatedNodes]);
-
-  /**
-   * Respond to changes in language
-   */
-  useEffect(() => {
-    if(language !== '' && options.pageLanguage !== language) {
-      setShowBanner(true);
-    }
-  }, [language])
 
   // whenever a new language option is selected
   const handleChange = (languageCode: string) => {
@@ -328,6 +332,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
           language={language} 
           supportedLanguages={supportedLanguages} 
           logoImageUrl={options.logoImageUrl} 
+          isLoading={isLoading} 
           handleExit={handleExit}
           handleLanguageChange={handleChange} />
       , document.body) : ''}

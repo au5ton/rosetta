@@ -1,7 +1,9 @@
 import React from 'react'
 import { css } from '@emotion/css'
 import { Global, css as cssr } from '@emotion/react'
-import { CancelOutlinedIcon as CancelIcon } from './SvgComponent'
+import { CancelOutlinedIcon, LoaderRings } from './SvgComponent'
+import whiteFadeImg from '../resource/te_bk.gif'
+//import ringsImg from '../resource/rings.svg'
 import { SupportedLanguage } from './models'
 
 const styles = {
@@ -32,7 +34,7 @@ const styles = {
   banner: css`
     margin: 0;
     background-color: #e4effb;
-    background-image: url("https://translate.googleapis.com/translate_static/img/te_bk.gif");
+    background-image: url("${whiteFadeImg}");
     overflow: hidden;
     height: 100%;
     // width: 100%;
@@ -42,7 +44,7 @@ const styles = {
     justify-content: flex-start;
     align-items: center;
     padding: 0 10px;
-    *:not(svg) {
+    > * {
       margin-right: 10px;
       font-family: arial;
       font-size: 10pt;
@@ -51,7 +53,8 @@ const styles = {
   bannerLogo: css`
     height: 1.1rem;
   `,
-  bannerExit: css`
+  bannerSpinner: css`
+    color: #757575;
   `,
   bannerExitAnchor: css`
     margin-left: auto;
@@ -72,6 +75,8 @@ interface BannerProps {
   pageLanguage: string;
   // Image that is viewable at the far left of the banner
   logoImageUrl: string | undefined;
+  // Are translations still loading?
+  isLoading: boolean;
   // The selected language
   language: string;
   // The supported languages for translation
@@ -82,7 +87,7 @@ interface BannerProps {
 
 export function Banner(props: BannerProps) {
   const isNativeLanguge = props.pageLanguage === props.language;
-  const isButtonDisabled = props.language === '' || isNativeLanguge;
+  const isButtonDisabled = props.language === '' || isNativeLanguge || props.isLoading;
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.handleLanguageChange(e.target.value);
@@ -98,14 +103,22 @@ export function Banner(props: BannerProps) {
       <div className={`${styles.frame} skiptranslate`}>
         <div className={styles.banner}>
           { props.logoImageUrl ? <img className={styles.bannerLogo} src={props.logoImageUrl} /> : <></>}
-          <span>Translated to: </span>
-          <select value={props.language} onChange={handleSelect} aria-label="Language Translate Widget">
-            {
-              props.supportedLanguages.map(e => <option key={e.languageCode} value={e.languageCode}>{e.displayName}</option>)
-            }
-          </select>
+          { 
+            props.isLoading ? 
+            <>
+              <span>Loading...</span>
+              <LoaderRings className={styles.bannerSpinner} />
+            </> : 
+            <>
+              <span>Translated to:</span>
+              <select value={props.language} onChange={handleSelect} aria-label="Language Translate Widget">
+                {
+                  props.supportedLanguages.map(e => <option key={e.languageCode} value={e.languageCode}>{e.displayName}</option>)
+                }
+              </select>
+            </>}
           <button onClick={handleClick} disabled={isButtonDisabled}>Show original</button>
-          <div className={styles.bannerExitAnchor} onClick={props.handleExit} title="Close"><CancelIcon /></div>
+          <div className={styles.bannerExitAnchor} onClick={props.handleExit} title="Close"><CancelOutlinedIcon /></div>
         </div>
       </div>
     </>

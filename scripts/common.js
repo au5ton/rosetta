@@ -9,7 +9,8 @@ module.exports = {
   minifySyntax: true,
   minifyWhitespace: true,
   loader: {
-    '.svg': 'file'
+    '.svg': 'text',
+    '.gif': 'dataurl'
   },
   format: 'iife',
   platform: 'browser',

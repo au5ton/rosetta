@@ -1,11 +1,11 @@
 openapi: 3.0.1
 info:
-  title: Translate Widget Back-end API
+  title: Rosetta Translate Widget Back-end API
   description: This defines the format and usage that the translate widget is expecting.
   version: 1.0.0
 externalDocs:
   description: GitHub repo
-  url: https://github.com/au5ton/translate-widget
+  url: https://github.com/au5ton/rosetta
 servers:
 - url: https://YOUR_SERVER_HERE.com/
 - url: https://google-translate-sample.vercel.app/api/v2

@@ -1,4 +1,4 @@
-# translate-widget 
+# rosetta
 
 ![project status](https://badgen.net/badge/project%20status/in%20development/yellow?icon=github)
 
@@ -64,7 +64,9 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       au5ton.translateWidget({
         pageLanguage: 'en',
         chunkSize: 50,
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.1/dist/powered-by.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.2.0/dist/powered-by.svg',
+        logoImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.2.0/dist/logo.svg',
+        preferredSupportedLanguages: ['en', 'es', 'zh', 'de'], // or [] to include everything
         endpoints: {
           supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
           translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
@@ -72,7 +74,7 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/translate-widget@0.1.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.2.0/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end
@@ -80,7 +82,7 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
 Your own back-end server that implements 2 endpoints with the format detailed in [openapi.yaml](openapi.yaml) using the [OpenAPI 3.0 spec](https://swagger.io/specification/).
 
 To preview this OpenAPI 3.0 spec, open [petstore.swagger.io](https://petstore.swagger.io/#/). At the top right, enter the following URL and press "Explore":
-- `https://au5ton.github.io/translate-widget/openapi.yaml`
+- `https://au5ton.github.io/rosetta/openapi.yaml`
 
 It should look like this:
 
@@ -91,5 +93,5 @@ It should look like this:
 
 Here are some example pages:
 
-- Sample 1: [https://au5ton.github.io/translate-widget/dist/sample.html](https://au5ton.github.io/translate-widget/dist/sample.html)
-- Sample 2: [https://au5ton.github.io/translate-widget/dist/constitution.html](https://au5ton.github.io/translate-widget/dist/constitution.html)
+- Sample 1: [https://au5ton.github.io/rosetta/dist/sample.html](https://au5ton.github.io/rosetta/dist/sample.html)
+- Sample 2: [https://au5ton.github.io/rosetta/dist/constitution.html](https://au5ton.github.io/rosetta/dist/constitution.html)

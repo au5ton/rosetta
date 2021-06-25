@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { css } from '@emotion/css'
 import useSWR from 'swr'
-import { useMutationObserver } from 'rooks'
+import { useMutationObserver, useSessionstorage } from 'rooks'
 import { Banner } from './Banner'
 import { DropdownOptions, SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
 import { chunkedArray, customFilter, existsInside, textNodesUnder, translate } from './util'
@@ -32,6 +32,14 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
   const bodyRef = useRef(document.body);
+  const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
+
+  // Only run on first mount
+  useEffect(() => {
+    if(lastLanguage !== null) {
+      setLanguage(lastLanguage);
+    }
+  }, []);
   
   /**
    * Whenever changes are made to the DOM, adjust translatedNodes accordingly
@@ -186,6 +194,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
     if(language !== '' && options.pageLanguage !== language) {
       setShowBanner(true);
     }
+    setLastLanguage(language)
   }, [language])
 
   /**

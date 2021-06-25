@@ -4,6 +4,13 @@
 
 An alternative to Google Translate's Website Translator widget that can work with any HTTP backend.
 
+## Demo
+
+Here are some example pages:
+
+- Sample 1: [https://au5ton.github.io/rosetta/dist/sample.html](https://au5ton.github.io/rosetta/dist/sample.html)
+- Sample 2: [https://au5ton.github.io/rosetta/dist/constitution.html](https://au5ton.github.io/rosetta/dist/constitution.html)
+
 ## Premise
 
 On December 4, 2019 Google discontinued its popular [Google Translate Widget](https://translate.google.com/manager/website/). The widget can no longer be added to new sites. It is currently still available for websites that already have it installed.
@@ -88,10 +95,3 @@ It should look like this:
 
 ![swagger ui](img/swagger_ui.png)
 
-
-## Examples
-
-Here are some example pages:
-
-- Sample 1: [https://au5ton.github.io/rosetta/dist/sample.html](https://au5ton.github.io/rosetta/dist/sample.html)
-- Sample 2: [https://au5ton.github.io/rosetta/dist/constitution.html](https://au5ton.github.io/rosetta/dist/constitution.html)

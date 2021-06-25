@@ -35,11 +35,22 @@ export interface SupportedLanguage {
   displayName: string;
 }
 
+export type TranslatedTextMap = { [languageCode: string]: string | undefined };
+export type TranslationStatusMap = { [languageCode: string]: TranslationStatus | undefined };
+
+export enum TranslationStatus {
+  NotTranslated = 0,
+  InProgress = 1,
+  Translated = 2,
+}
+
 /**
  * Internal reference used to hot-swap text
  */
- export interface TranslatedNode {
+export interface TranslatedNode {
   originalText: string;
-  translatedText: string | undefined;
+  currentLanguage: string;
+  translatedText: TranslatedTextMap;
+  translationStatus: TranslationStatusMap;
   node: Node;
 }

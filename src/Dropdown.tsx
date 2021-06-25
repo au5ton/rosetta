@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { css } from '@emotion/css'
 import useSWR from 'swr'
+import useMutationObserver from '@rooks/use-mutation-observer'
 import { Banner } from './Banner'
-import { DropdownOptions, SupportedLanguage, TranslatedNode } from './models'
-import { chunkedArray, textNodesUnder } from './util'
+import { DropdownOptions, SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
+import { chunkedArray, customFilter, existsInside, textNodesUnder, translate } from './util'
 
 const styles = {
   wrap: css`
@@ -26,38 +27,255 @@ export function Dropdown(props: { options: DropdownOptions }) {
   // store the supported languages seperately from the API call
   const [supportedLanguages, setSupportedLanguages] = useState<SupportedLanguage[]>([ { displayName: 'Select Language', languageCode: '' } ]);
   // for UI
-  const [language, setLanguage] = useState('')
-  const showBanner = language !== options.pageLanguage && language !== '';
+  const [language, setLanguage] = useState('');
+  const [showBanner, setShowBanner] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
+  const bodyRef = useRef(document.body);
+  
+  /**
+   * Whenever changes are made to the DOM, adjust translatedNodes accordingly
+   * This includes:
+   * - Whenever an element is added or removed
+   * - Whenever an element's text changes
+   */
+  const handleDocumentMutation: MutationCallback = (mutations) => {
+    // wrap in this so we don't have race conditions
+    setTranslatedNodes(previous => {
+      const result = previous.slice();
+      for(let mutation of mutations) {
+        // If an element is added or removed
+        if(mutation.type === 'childList') {
+          // Add the added nodes to translatedNodes
+          for(let i = 0; i < mutation.addedNodes.length; i++) {
+            // use this as a shorthand
+            const node = mutation.addedNodes[i];
+            // check if this is a Node we even want, reusing our custom filter
+            if(customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
+              // make sure this node isn't one we're already watching
+              if(! existsInside(result, e => e.node.isSameNode(node))) {
+                const nativeLang: TranslatedTextMap = {};
+                nativeLang[options.pageLanguage] = node.nodeValue ?? '';
+                const nativeStatus: TranslationStatusMap = {};
+                nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+                result.push({
+                  originalText: node.nodeValue ?? '',
+                  currentLanguage: options.pageLanguage,
+                  translatedText: {},
+                  translationStatus: nativeStatus,
+                  node
+                });
+              }
+            }
+            // if this is not a Node that we want, maybe it's children are
+            else {
+              const children = textNodesUnder(node);
+              for(let child of children) {
+                // make sure this node isn't one we're already watching
+                if(! existsInside(result, e => e.node.isSameNode(child))) {
+                  const nativeLang: TranslatedTextMap = {};
+                  nativeLang[options.pageLanguage] = child.nodeValue ?? '';
+                  const nativeStatus: TranslationStatusMap = {};
+                  nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+                  result.push({
+                    originalText: child.nodeValue ?? '',
+                    currentLanguage: options.pageLanguage,
+                    translatedText: nativeLang,
+                    translationStatus: nativeStatus,
+                    node: child
+                  });
+                }
+              }
+            }
+          }
+          // Remove the removed nodes from translatedNodes
+          for(let i = 0; i < mutation.removedNodes.length; i++) {
+            // use this as a shorthand
+            const node = mutation.removedNodes[i];
+            // check if this is a Node we are monitoring, reusing our custom filter
+            if(customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
+              // find the index of this node in translatedNodes
+              const index = result.findIndex(e => e.node.isSameNode(node));
+              // check if this is a node we're watching
+              if(index >= 0) {
+                // remove it
+                result.splice(index, 1);
+              }
+            }
+            // if this is not a Node that we want, maybe it's children are
+            else {
+              const children = textNodesUnder(node);
+              for(let child of children) {
+                // find the index of this node in translatedNodes
+                const index = result.findIndex(e => e.node.isSameNode(child)); // TODO: inefficient
+                // check if this is a node we're watching
+                if(index >= 0) {
+                  // remove it
+                  result.splice(index, 1);
+                }
+              }
+            }
+          }
+        }
+        // If the text of an element changed
+        if(mutation.type === 'characterData') {
 
-  // update <select> once the languages load for the first time
+          // TODO: remove later when we figured out how to stop the feedback loop
+          continue;
+
+          // find the index of this node in translatedNodes
+          const index = result.findIndex(e => e.node.isSameNode(mutation.target)); // TODO: inefficient
+          // check if this is a node we're watching
+          if(index >= 0) {
+            // TODO: determine if changes are significant enough to do a round-trip call to translate it
+            
+            // clear out old translation data
+            for(let key in result[index].translatedText) {
+              result[index].translatedText[key] = undefined;
+              result[index].translationStatus[key] = TranslationStatus.NotTranslated;
+            }
+  
+            // update native translation data
+            result[index].originalText = mutation.target.nodeValue ?? '';
+            result[index].translatedText[options.pageLanguage] = result[index].originalText;
+            result[index].translationStatus[options.pageLanguage] = TranslationStatus.Translated;
+          }
+          
+        }
+      }
+      return result;
+    });
+  };
+
+  /**
+   * Watch the DOM for changes
+   * See:
+   * - https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+   * - https://www.npmjs.com/package/@rooks/use-mutation-observer
+   */
+  useMutationObserver(bodyRef, handleDocumentMutation);
+
+  /**
+   * update <select> once the languages load for the first time
+   */
   useEffect(() => {
     // this condition should only happen on the first load
     if(data !== undefined && supportedLanguages.length === 1) {
       // if we only want a handful of languages to show instead of the entire list
       if(options.preferredSupportedLanguages.length > 1) {
-        setSupportedLanguages(x => [...x, ...data.filter(e => options.preferredSupportedLanguages.includes(e.languageCode))]);
+        setSupportedLanguages(x => [
+          ...x, 
+          ...data
+            .filter(e => options.preferredSupportedLanguages.includes(e.languageCode))
+        ]);
       }
       else {
-        setSupportedLanguages(x => [...x, ...data]);
+        setSupportedLanguages(x => [
+          ...x, 
+          ...data
+        ]);
       }
     }
   }, [data])
 
-  // initialize translatedNodes
+  /**
+   * Initialize translatedNodes and repopulate translations if they are missing
+   * This pairs with handleDocumentMutation
+   */
   useEffect(() => {
-    // if we haven't done a translation before
+    console.log('translatedNodes effect! language: ', language, translatedNodes);
+    // if translatedNodes is not initialized, initialize it
     if(translatedNodes.length === 0) {
       // get all leaf text nodes
       const nodes = textNodesUnder(document.body);
       // compose our result
-      setTranslatedNodes(nodes.map(node => ({
-        originalText: node.nodeValue ?? '',
-        translatedText: undefined,
-        node
-      })));
+      setTranslatedNodes(nodes.map(node => {
+        const nativeLang: TranslatedTextMap = {};
+        nativeLang[options.pageLanguage] = node.nodeValue ?? '';
+        const nativeStatus: TranslationStatusMap = {};
+        nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+        return {
+          originalText: node.nodeValue ?? '',
+          currentLanguage: options.pageLanguage,
+          translatedText: nativeLang,
+          translationStatus: nativeStatus,
+          node
+        }
+      }));
     }
-  }, [translatedNodes]);
+    // if translatedNodes is already initialized
+    else {
+      // check that the language isn't set to the "Select Language" dropdown
+      if(language !== '') {
+        (async () => {
+          // filter translatedNodes to get a list of nodes that aren't translated to the current language
+          const needsTranslating = translatedNodes
+            .filter(e => e.translatedText[language] === undefined && 
+              (e.translationStatus[language] === undefined ||  
+              e.translationStatus[language] === TranslationStatus.NotTranslated));
+
+          console.log(`needs translating (${needsTranslating.length}): `, needsTranslating);
+          // if any translations need to be fetched, do them
+          // prevent infinite loop because we'll be setting the state
+          if(needsTranslating.length > 0) {
+            // mark these nodes as "in progress", so our chunked changes don't issue duplicate requests
+            setTranslatedNodes(previous => {
+              const results = previous.slice();
+              for(let i = 0; i < needsTranslating.length; i++) {
+                for(let j = 0; j < results.length; j++) {
+                  if(needsTranslating[i].node.isSameNode(results[j].node)) {
+                    results[j].translationStatus[language] = TranslationStatus.InProgress;
+                  }
+                }
+              }
+              return results;
+            });
+
+            // fetch and apply translations
+            for(let chunk of chunkedArray(needsTranslating, options.chunkSize)) {
+              // actually do translating
+              const data = await translate(options.endpoints.translate, chunk.map(e => e.originalText), options.pageLanguage, language);
+              setTranslatedNodes(previous => {
+                const results = previous.slice();
+                for(let i = 0; i < chunk.length; i++) {
+                  // find where this chunk's node exists in the state
+                  const index = results.findIndex(e => e.node.isSameNode(chunk[i].node));
+                  // if we could find it, update the state
+                  if(index >= 0) {
+                    results[index].translatedText[language] = data[i];
+                    results[index].translationStatus[language] = TranslationStatus.Translated;
+                    /**
+                     * intentionally don't update the DOM here so we can update the DOM on the next effect call
+                     * that will happen as a result of our state changes here
+                     */
+                    //previous[index].node.nodeValue = previous[index].translatedText[language] ?? '';
+                  }
+                }
+                return results;
+              });
+              
+            }
+          }
+        })();
+
+        // update the DOM with whatever is stored in the state
+        // check if any of the "currentLanguage" is different from the dropdown setting
+        if(translatedNodes.some(e => e.currentLanguage !== language && e.translatedText[language] !== undefined)) {
+          setTranslatedNodes(previous => {
+            const results = previous.slice();
+            // update "currentLanguage" field and update DOM
+            for(let i = 0; i < results.length; i++) {
+              // if "currentLanguage" is different from the dropdown setting
+              if(results[i].currentLanguage !== language && results[i].translatedText[language] !== undefined) {
+                results[i].node.nodeValue = results[i].translatedText[language] ?? '';
+                results[i].currentLanguage = language;
+              }
+            }
+            return results;
+          })
+        }
+      }
+    }
+  }, [language, translatedNodes]);
 
   // whenever a new language option is selected
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,50 +292,6 @@ export function Dropdown(props: { options: DropdownOptions }) {
       x.unshift(x.splice(x.findIndex(e => e.languageCode === options.pageLanguage), 1)[0]);
       return x;
     });
-    translate(options.pageLanguage, e.target.value);
-  }
-
-  // actually do the translation
-  const translate = async (from: string, to: string) => {
-    // confirm that we've done a translation before
-    if(translatedNodes.length > 0) {
-      console.table(translatedNodes) 
-      // if we're going back to the native language
-      if(from === to) {
-        // copy back the original text
-        for(let e of translatedNodes) {
-          e.node.nodeValue = e.originalText;
-        }
-      }
-      else {
-        // perform translations in chunks
-        for(let chunk of chunkedArray(translatedNodes, 10)) {
-          const res = await fetch(`${options.endpoints.translate}?from=${from}&to=${to}`, { 
-            method: 'POST',
-            body: JSON.stringify(chunk.map(e => e.originalText)),
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-          const data = await res.json() as string[];
-          for(let i = 0; i < chunk.length; i++) {
-            // actually do translating
-            chunk[i].translatedText = data[i];
-            chunk[i].node.nodeValue = chunk[i].translatedText ?? '';
-          }
-        }
-      }
-    }
-    if(translatedNodes.length === 0) {
-      // get all leaf text nodes
-      const nodes = textNodesUnder(document.body);
-      // compose our result
-      setTranslatedNodes(nodes.map(node => ({
-        originalText: node.nodeValue ?? '',
-          translatedText: undefined,
-          node
-      })));
-    }
   }
 
   // for debugging
@@ -126,6 +300,11 @@ export function Dropdown(props: { options: DropdownOptions }) {
     nodes.forEach(e => {
       if(e.parentElement) {
         e.parentElement.style.backgroundColor = 'red';
+        setTimeout(() => {
+          if(e.parentElement) {
+            e.parentElement.style.backgroundColor = '';
+          }
+        }, 5000)
       }
     });
   }
@@ -138,9 +317,9 @@ export function Dropdown(props: { options: DropdownOptions }) {
         }
       </select>
       { options.attributionImageUrl ? <img className={styles.attribution} src={options.attributionImageUrl} /> : <></>}
-      <p>language: {language}</p>
+      {/* <p>language: {language}</p>
       <p>prop language: {options.pageLanguage}</p>
-      <button onClick={handleClick}>Highlight Nodes</button>
+      <button onClick={handleClick}>Highlight Nodes</button> */}
       {showBanner ? createPortal(<Banner />, document.body) : ''}
     </div>
   );

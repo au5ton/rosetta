@@ -1,7 +1,7 @@
 
-const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
+export const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
 
-const customFilter: NodeFilter = {
+export const customFilter: NodeFilter = {
   /**
    * FILTER_ACCEPT 	Value returned by the NodeFilter.acceptNode() method when a node should be accepted.
    * 
@@ -52,7 +52,7 @@ export function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => bo
 /**
  * From: https://stackoverflow.com/a/10730777
  */
-export function textNodesUnder(el: HTMLElement){
+export function textNodesUnder(el: Node){
   var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT, customFilter);
   while(n=walk.nextNode()) a.push(n);
   return a;
@@ -118,5 +118,27 @@ export function extract(obj: {[key: string]: any}, key: string | string[], defau
   else {
     // If value is nullish, return defaultValue instead
     return (obj[key] === undefined || obj[key] === null) ? defaultValue : obj[key];
+  }
+}
+
+export function existsInside<T>(array: T[], predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any) {
+  return array.findIndex(predicate) >= 0;
+}
+
+export async function translate(endpoint: string, text: string[], from: string, to: string): Promise<string[]> {
+  const res = await fetch(`${endpoint}?from=${from}&to=${to}`, {
+    method: 'POST',
+    body: JSON.stringify(text),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+  const data = await res.json();
+  // check types
+  if(Array.isArray(data) && data.every(e => typeof e === 'string')) {
+    return data
+  }
+  else {
+    throw `Data returned from endpoint was not of type string[] (Endpoint: ${endpoint}), data: ${JSON.stringify(data)}`
   }
 }

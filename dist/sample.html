@@ -37,29 +37,60 @@
       <div id="translate_widget_element"></div>
       <p><a href="sample_alt.html">Compare against how the real Google Translate widget works</a></p>
     </header>
+    <style>
+      #add_more p {
+        background-color: transparent;
+        animation-name: slidein;
+        animation-duration: 3s;
+        animation-iteration-count: 1;
+      }
+      @keyframes fadeIn {
+        from {
+          background-color: rgba(255, 255, 0, 1.0);
+        }
+
+        to {
+          background-color: rgba(255, 255, 0, 0.0);
+        }
+      }
+    </style>
+    <fieldset>
+      <legend style="color:crimson">Responsive translation test</legend>
+      <p>The widget will respond to new text being added and removed from the page</p>
+      <button id="responsive_button">Click to add text below</button>
+      <input id="responsive_text" placeholder="Text goes here" />
+    </fieldset>
+    <fieldset>
+      <legend>User added text</legend>
+      <section id="add_more">
+        <p>Sample text</p>
+      </section>
+    </fieldset>
+    <script>
+      const button = document.getElementById('responsive_button')
+      const input = document.getElementById('responsive_text')
+      const container = document.getElementById('add_more')
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        let addition = document.createElement('p');
+        addition.textContent = input.value;
+        container.appendChild(addition);
+      })
+    </script>
+    <hr />
     <section>
       <h1 class="other-class">Headings &amp; Copy</h1>
       <h1 class="other-class">First Header h1</h1>
       <p class="test-class">
-        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-        praesentium voluptatum deleniti atque corrupti quos.
+        The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
       </p>
       <h2>Second header h2</h2>
       <p class="test-class">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Harris County is a county in the U.S. state of Texas. As of the 2010 census, the population was 4,092,459,[2] making it the most populous county in Texas and the third most populous county in the United States. Its county seat is Houston, the largest city in Texas and fourth largest city in the United States. The county was founded in 1836 and organized in 1837.[3][4] It is named for John Richardson Harris, who founded the town of Harrisburg on Buffalo Bayou in 1826.[3] According to a July 2018 census estimate, Harris County's population had grown to 4,698,619, comprising over 16% of Texas's population.[1][5] Harris County is included in the nine-county Houston–The Woodlands–Sugar Land metropolitan statistical area, which is the fifth-most populous metropolitan area in the United States.
       </p>
       <h3>Third header h3</h3>
       <p class="test-class">
-        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-        praesentium voluptatum deleniti atque corrupti quos dolores et quas
-        molestias excepturi sint occaecati cupiditate non provident, similique sunt
-        in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
-        fuga. Et harum quidem rerum facilis est et expedita distinctio.
+        County governments serve as agents of the state, with responsibilities defined in the Texas Constitution. Counties are governed by the commissioners' court. Each Texas county has four precinct commissioners and a county judge. Although this body is called a court, it conducts the general business of the county and oversees financial matters.[29] The commissioners court may hire personnel to run major departments, such as health and human services. 
       </p>
       <h4>Fourth header h4</h4>
       <p class="test-class">

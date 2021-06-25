@@ -16,6 +16,21 @@ Technically, their widget [stills works if you have the code for it](https://www
 
 The goal of this project is to revive the simple "plug and play" usage of the legacy Google Translate Widget, but to make its functionality future-proof and transferable to other translation API providers.
 
+## Features
+
+- Flexible branding with options `attributionImageUrl` and `logoImageUrl`
+- Easy to use interface that is very similar to the original Google Translate widget
+- Can limit the number of language options available with option `preferredSupportedLanguages`
+- Translates elements even if they are added to the DOM after the page loads with [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+- Translations are cached in memory per page per session
+  - This will work best if your back-end also caches translations.
+- Progress indicators are shown while translations are in progress
+
+  ![rings](resource/rings.svg)
+
+- The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
+- Bypass translation using the CSS class `.skiptranslate`
+
 ## Limitations
 
 ### Back-end not included
@@ -31,7 +46,7 @@ The schema/model that a separate API server must implement is detailed below.
 
 ### Browser support
 
-Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://github.com/evanw/esbuild/issues/297) support for ES5 is only partial. To see which browsers this affects, see [caniuse.com/es6](https://caniuse.com/es6). In our TypeScript codebase, we utilize [core-js](https://github.com/zloirock/core-js) and [whatwg-fetch](https://github.com/github/fetch) to polyfill newer JavaScript features to older browsers.
+Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://github.com/evanw/esbuild/issues/297) support for ES5 is only partial. To see which browsers this affects, see [caniuse.com/es6](https://caniuse.com/es6). In our TypeScript codebase, we utilize [core-js](https://github.com/zloirock/core-js) and [whatwg-fetch](https://github.com/github/fetch) to polyfill newer JavaScript features to older browsers. The other features we take advantage of, including [`sessionStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) and [`MutationObserver`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) are IE11 compatible.
 
 ## Usage
 

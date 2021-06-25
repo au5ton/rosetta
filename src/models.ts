@@ -11,6 +11,7 @@ export interface DropdownOptions {
   // The URL of the image listed below the dropdown element
   // Used for adhering to the Google Translate API attribution requirements
   attributionImageUrl: string | undefined;
+  logoImageUrl: string | undefined;
   /**
    * Translations are done in batches instead of all at once.
    * Batches are made to prevent an API error of translating too many

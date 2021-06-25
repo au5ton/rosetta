@@ -9,6 +9,11 @@
     <meta name="author" content="mrmrs">
     <meta name="description" content="Common HTML5 patterns I use.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      pre {
+        overflow: auto;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -32,28 +37,17 @@
           <li> <a href="#" title="Careers">Careers</a> </li>
         </ul>
       </nav>
-      <h2 style="color: tomato">Custom Translate widget</h2>
+      <h2 style="color: tomato">Sample 1a with Translate Widget</h2>
       <div id="google_translate_element"></div>
       <div id="translate_widget_element"></div>
-      <p><a href="sample_alt.html">Compare against how the real Google Translate widget works</a></p>
+      <h3>All Examples</h3>
+      <ul>
+        <li><a href="sample.html">Sample 1a with Translate Widget</a></li>
+        <li><a href="sample_alt.html">Sample 1b with Original Google Translate widget</a></li>
+        <li><a href="constitution.html">Sample 2a with Translate Widget</a></li>
+        <li><a href="constitution_alt.html">Sample 2b with Original Google Translate widget</a></li>
+      </ul>
     </header>
-    <style>
-      #add_more p {
-        background-color: transparent;
-        animation-name: slidein;
-        animation-duration: 3s;
-        animation-iteration-count: 1;
-      }
-      @keyframes fadeIn {
-        from {
-          background-color: rgba(255, 255, 0, 1.0);
-        }
-
-        to {
-          background-color: rgba(255, 255, 0, 0.0);
-        }
-      }
-    </style>
     <fieldset>
       <legend style="color:crimson">Responsive translation test</legend>
       <p>The widget will respond to new text being added and removed from the page</p>
@@ -91,29 +85,6 @@
       <h3>Third header h3</h3>
       <p class="test-class">
         County governments serve as agents of the state, with responsibilities defined in the Texas Constitution. Counties are governed by the commissioners' court. Each Texas county has four precinct commissioners and a county judge. Although this body is called a court, it conducts the general business of the county and oversees financial matters.[29] The commissioners court may hire personnel to run major departments, such as health and human services. 
-      </p>
-      <h4>Fourth header h4</h4>
-      <p class="test-class">
-        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt
-        ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
-        veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi
-        ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-        qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-        qui dolorem eum fugiat quo voluptas nulla pariatur?"
-      </p>
-      <h5>Fifth header h5</h5>
-      <p class="test-class">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-      </p>
-      <h6>Sixth header h6</h6>
-      <p class="test-class">
-        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-        praesentium voluptatum deleniti atque corrupti quos.
       </p>
     </section>
     <hr>
@@ -458,6 +429,7 @@
         pageLanguage: 'en',
         chunkSize: 50,
         attributionImageUrl: 'powered-by.svg',
+        logoImageUrl: 'logo.svg',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de'],
         endpoints: {
           //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',

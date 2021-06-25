@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { css } from '@emotion/css'
 import useSWR from 'swr'
-import useMutationObserver from '@rooks/use-mutation-observer'
+import { useMutationObserver } from 'rooks'
 import { Banner } from './Banner'
 import { DropdownOptions, SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
 import { chunkedArray, customFilter, existsInside, textNodesUnder, translate } from './util'
@@ -277,9 +277,18 @@ export function Dropdown(props: { options: DropdownOptions }) {
     }
   }, [language, translatedNodes]);
 
+  /**
+   * Respond to changes in language
+   */
+  useEffect(() => {
+    if(language !== '' && options.pageLanguage !== language) {
+      setShowBanner(true);
+    }
+  }, [language])
+
   // whenever a new language option is selected
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
+  const handleChange = (languageCode: string) => {
+    setLanguage(languageCode);
     setSupportedLanguages(x => {
       // check if placeholder exists
       const placeholderIndex = x.findIndex(e => e.languageCode === '');
@@ -294,24 +303,17 @@ export function Dropdown(props: { options: DropdownOptions }) {
     });
   }
 
-  // for debugging
-  const handleClick = () => {
-    const nodes = textNodesUnder(document.body);
-    nodes.forEach(e => {
-      if(e.parentElement) {
-        e.parentElement.style.backgroundColor = 'red';
-        setTimeout(() => {
-          if(e.parentElement) {
-            e.parentElement.style.backgroundColor = '';
-          }
-        }, 5000)
-      }
-    });
+  /**
+   * What happens when the Banner's exit button is clicked
+   */
+  const handleExit = () => {
+    setLanguage(options.pageLanguage)
+    setShowBanner(false)
   }
 
   return (
     <div className={`${styles.wrap} skiptranslate`}>
-      <select value={language} onChange={handleChange} className={styles.gadgetSelect} aria-label="Language Translate Widget">
+      <select value={language} onChange={e => handleChange(e.target.value)} className={styles.gadgetSelect} aria-label="Language Translate Widget">
         {
           supportedLanguages.map(e => <option key={e.languageCode} value={e.languageCode}>{e.displayName}</option>)
         }
@@ -320,7 +322,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
       {/* <p>language: {language}</p>
       <p>prop language: {options.pageLanguage}</p>
       <button onClick={handleClick}>Highlight Nodes</button> */}
-      {showBanner ? createPortal(<Banner />, document.body) : ''}
+      {showBanner ? createPortal(
+        <Banner 
+          pageLanguage={options.pageLanguage} 
+          language={language} 
+          supportedLanguages={supportedLanguages} 
+          logoImageUrl={options.logoImageUrl} 
+          handleExit={handleExit}
+          handleLanguageChange={handleChange} />
+      , document.body) : ''}
     </div>
   );
 }

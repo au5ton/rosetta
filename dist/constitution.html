@@ -34,10 +34,16 @@
         <li> <a href="#" title="Careers">Careers</a> </li>
       </ul>
     </nav>
-    <h2 style="color: tomato">Custom Translate widget</h2>
+    <h2 style="color: tomato">Sample 2a with Translate Widget</h2>
     <div id="google_translate_element"></div>
     <div id="translate_widget_element"></div>
-    <p><a href="constitution_alt.html">Compare against how the real Google Translate widget works</a></p>
+    <h3>All Examples</h3>
+      <ul>
+        <li><a href="sample.html">Sample 1a with Translate Widget</a></li>
+        <li><a href="sample_alt.html">Sample 1b with Original Google Translate widget</a></li>
+        <li><a href="constitution.html">Sample 2a with Translate Widget</a></li>
+        <li><a href="constitution_alt.html">Sample 2b with Original Google Translate widget</a></li>
+      </ul>
   </header>
   <section>
     <section id="block-system-main" class="block block-system clearfix">
@@ -1039,6 +1045,8 @@
       au5ton.translateWidget({
         pageLanguage: 'en',
         attributionImageUrl: 'powered-by.svg',
+        logoImageUrl: 'logo.svg',
+        preferredSupportedLanguages: [], // include all of them
         endpoints: {
           supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
           translate: 'https://google-translate-sample.vercel.app/api/v3/translate'

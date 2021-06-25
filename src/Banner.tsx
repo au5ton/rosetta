@@ -1,6 +1,8 @@
 import React from 'react'
 import { css } from '@emotion/css'
 import { Global, css as cssr } from '@emotion/react'
+import { CancelOutlinedIcon as CancelIcon } from './SvgComponent'
+import { SupportedLanguage } from './models'
 
 const styles = {
   global: cssr`
@@ -33,44 +35,77 @@ const styles = {
     background-image: url("https://translate.googleapis.com/translate_static/img/te_bk.gif");
     overflow: hidden;
     height: 100%;
-    width: 100%;
+    // width: 100%;
+    display: flex;
+    flex-diretion: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10px;
+    *:not(svg) {
+      margin-right: 10px;
+      font-family: arial;
+      font-size: 10pt;
+    }
+  `,
+  bannerLogo: css`
+    height: 1.1rem;
+  `,
+  bannerExit: css`
+  `,
+  bannerExitAnchor: css`
+    margin-left: auto;
+    margin-right: 0px!important;
+    order: 2;
+    height: 24px;
+    cursor: pointer;
+    //color: #212121;
+    color: #757575;
+    :hover {
+      color: #1976d2;
+    }
   `,
 };
 
-export function Banner() {
+interface BannerProps {
+  // The source language of the document
+  pageLanguage: string;
+  // Image that is viewable at the far left of the banner
+  logoImageUrl: string | undefined;
+  // The selected language
+  language: string;
+  // The supported languages for translation
+  supportedLanguages: SupportedLanguage[];
+  handleExit: () => void;
+  handleLanguageChange: (languageCode: string) => void;
+}
+
+export function Banner(props: BannerProps) {
+  const isNativeLanguge = props.pageLanguage === props.language;
+  const isButtonDisabled = props.language === '' || isNativeLanguge;
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.handleLanguageChange(e.target.value);
+  };
+
+  const handleClick = () => {
+    props.handleLanguageChange(props.pageLanguage);
+  }
 
   return (
     <>
       <Global styles={styles.global} />
       <div className={`${styles.frame} skiptranslate`}>
         <div className={styles.banner}>
-          <span>Hello, Banner!</span>
-          {/* <table style={{ width: '100%', height: '100%', border: 0 }} cellSpacing="0" cellPadding="0">
-            <tbody>
-              <tr style={{ verticalAlign: 'middle' }}>
-                <td width="1" >
-                  <a
-                    href="https://translate.google.com"
-                    target="_blank"
-                    ><img
-                      src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_68x28dp.png"
-                      alt="Google Translate"
-                  /></a>
-                </td>
-                <td width="1">
-                  <img
-                    src="https://www.google.com/images/cleardot.gif"
-                    title="The content of this secure page will be sent to Google for translation using a secure connection."
-                    alt="The content of this secure page will be sent to Google for translation using a secure connection."
-                    className={css`background-image:url(https://translate.googleapis.com/translate_static/img/te_ctrl3.gif);background-position:-56px 0px;margin:0 4px`}
-                    width="9"
-                    height="15"
-                  />
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table> */}
+          { props.logoImageUrl ? <img className={styles.bannerLogo} src={props.logoImageUrl} /> : <></>}
+          <span>Translated to: </span>
+          <select value={props.language} onChange={handleSelect} aria-label="Language Translate Widget">
+            {
+              props.supportedLanguages.map(e => <option key={e.languageCode} value={e.languageCode}>{e.displayName}</option>)
+            }
+          </select>
+          <button onClick={handleClick} disabled={isButtonDisabled}>Show original</button>
+          <div className={styles.bannerExitAnchor} onClick={props.handleExit} title="Close"><CancelIcon /></div>
         </div>
       </div>
     </>

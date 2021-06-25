@@ -40,7 +40,7 @@ The code available in this widget details the UI portion of the widget. **Howeve
 Translation APIs aren't free, but a sample API server is available for prototyping. **I make no guarantees that this API server will remain active. Don't rely on this API server in production.**
 
 Sample API server:
-- https://github.com/au5ton/google-translate-sample
+- [https://github.com/au5ton/google-translate-sample](https://github.com/au5ton/google-translate-sample)
 
 The schema/model that a separate API server must implement is detailed below.
 

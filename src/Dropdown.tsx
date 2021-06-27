@@ -31,7 +31,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const [showBanner, setShowBanner] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
-  const bodyRef = useRef(document.body);  
+  const bodyRef = useRef(document.body);
   const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
 
   // Only run on first mount

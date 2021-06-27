@@ -8,9 +8,9 @@ externalDocs:
   url: https://github.com/au5ton/rosetta
 servers:
 - url: https://YOUR_SERVER_HERE.com/
-- url: https://google-translate-sample.vercel.app/api/legacy
-- url: https://google-translate-sample.vercel.app/api/v2
-- url: https://google-translate-sample.vercel.app/api/v3
+- url: https://rosetta-demo-server.vercel.app/api/legacy
+- url: https://rosetta-demo-server.vercel.app/api/v2
+- url: https://rosetta-demo-server.vercel.app/api/v3
 paths:
   /translate:
     post:

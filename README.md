@@ -48,7 +48,7 @@ The code available in this widget details the UI portion of the widget. **Howeve
 Translation APIs aren't free, but a sample API server is available for prototyping. **I make no guarantees that this API server will remain active. Don't rely on this API server in production.**
 
 Sample API server:
-- [https://github.com/au5ton/google-translate-sample](https://github.com/au5ton/google-translate-sample)
+- [https://github.com/au5ton/rosetta-demo-server](https://github.com/au5ton/rosetta-demo-server)
 
 The schema/model that a separate API server must implement is detailed below.
 
@@ -76,8 +76,8 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
         logoImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.1/dist/logo.svg',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de'], // or [] to include everything
         endpoints: {
-          supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
-          translate: 'https://google-translate-sample.vercel.app/api/v3/translate'
+          supportedLanguages: 'https://rosetta-demo-server.vercel.app/api/v3/supportedLanguages',
+          translate: 'https://rosetta-demo-server.vercel.app/api/v3/translate'
         }
       }, 'translate_widget_element');
     }

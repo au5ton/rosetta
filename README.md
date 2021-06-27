@@ -72,8 +72,8 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       au5ton.translateWidget({
         pageLanguage: 'en',
         chunkSize: 50,
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.0/dist/powered-by.svg',
-        logoImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.0/dist/logo.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.1/dist/powered-by.svg',
+        logoImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.1/dist/logo.svg',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de'], // or [] to include everything
         endpoints: {
           supportedLanguages: 'https://google-translate-sample.vercel.app/api/v3/supportedLanguages',
@@ -82,7 +82,7 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.0/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.3.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end

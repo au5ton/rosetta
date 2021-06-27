@@ -68,7 +68,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
     // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver#parameters
     // root: document.body,
     // rootMargin?: string;
-    threshold: 1.0,
+    threshold: options.intersectionThreshold,
   }))
   
   /**

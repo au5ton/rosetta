@@ -13,11 +13,12 @@ export function initHook(args: any, mountLocation: string) {
     attributionImageUrl: extract(args, 'attributionImageUrl', undefined),
     logoImageUrl: extract(args, 'logoImageUrl', undefined),
     preferredSupportedLanguages: extract(args, 'preferredSupportedLanguages', []),
+    intersectionThreshold: extract(args, 'intersectionThreshold', 1.0),
     endpoints: {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'
-      supportedLanguages: extract(args, ['endpoints', 'supportedLanguages'], ''),
-      translate: extract(args, ['endpoints', 'translate'], '')
+      supportedLanguages: extract(args, ['endpoints', 'supportedLanguages'], 'https://google-translate-sample.vercel.app/api/legacy/supportedLanguages'),
+      translate: extract(args, ['endpoints', 'translate'], 'https://google-translate-sample.vercel.app/api/legacy/translate')
     }
   };
   // for debugging

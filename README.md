@@ -37,6 +37,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
 
 - The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
 - Bypass translation using the CSS class `.skiptranslate`
+- Only the elements that are visible in the viewport are translated, detected with [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver).
 
 ## Limitations
 

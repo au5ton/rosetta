@@ -20,6 +20,13 @@ export interface DropdownOptions {
    */
   chunkSize: number;
   /**
+   * A single number between 0.0 and 1.0, specifying a ratio of intersection area to total bounding box area for the observed target.
+   * A value of 0.0 means that even a single visible pixel counts as the target being visible.
+   * 1.0 means that the entire target element is visible.
+   * See: https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
+   */
+  intersectionThreshold: number;
+  /**
    * URL of the endpoints for the API backing this widget
    */
   endpoints: {
@@ -54,4 +61,6 @@ export interface TranslatedNode {
   translatedText: TranslatedTextMap;
   translationStatus: TranslationStatusMap;
   node: Node;
+  isIntersecting: boolean;
+  parentElement: HTMLElement | null;
 }

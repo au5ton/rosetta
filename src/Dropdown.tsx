@@ -31,7 +31,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const [showBanner, setShowBanner] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
-  const bodyRef = useRef(document.body);
+  const bodyRef = useRef(document.body);  
   const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
 
   // Only run on first mount
@@ -40,6 +40,36 @@ export function Dropdown(props: { options: DropdownOptions }) {
       setLanguage(lastLanguage);
     }
   }, []);
+
+  /**
+   * Here, the results from our IntersectionObserver are merged with our existing dataset
+   */
+  const handleElementIntersection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+    setTranslatedNodes(previous => {
+      const result = previous.slice();
+      // for all items
+      for(let item of result) {
+        for(let entry of entries) {
+          // if we find a matching pair
+          if(item.parentElement && item.parentElement.isSameNode(entry.target)) {
+            item.isIntersecting = entry.isIntersecting;
+          } 
+        }
+      }
+      return result;
+    })
+  }
+
+  /**
+   * Used for determining if an element is visible in the viewport or not before translating it
+   * See: https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
+   */
+  const intersectionObserver = useRef(new IntersectionObserver(handleElementIntersection, {
+    // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver#parameters
+    // root: document.body,
+    // rootMargin?: string;
+    threshold: 1.0,
+  }))
   
   /**
    * Whenever changes are made to the DOM, adjust translatedNodes accordingly
@@ -66,12 +96,18 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 nativeLang[options.pageLanguage] = node.nodeValue ?? '';
                 const nativeStatus: TranslationStatusMap = {};
                 nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+
+                // add to intersection observer
+                if(node.parentElement) intersectionObserver.current.observe(node.parentElement);
+
                 result.push({
                   originalText: node.nodeValue ?? '',
                   currentLanguage: options.pageLanguage,
                   translatedText: {},
                   translationStatus: nativeStatus,
-                  node
+                  node,
+                  isIntersecting: false,
+                  parentElement: node.parentElement
                 });
               }
             }
@@ -85,12 +121,18 @@ export function Dropdown(props: { options: DropdownOptions }) {
                   nativeLang[options.pageLanguage] = child.nodeValue ?? '';
                   const nativeStatus: TranslationStatusMap = {};
                   nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+
+                  // add to intersection observer
+                  if(child.parentElement) intersectionObserver.current.observe(child.parentElement);
+
                   result.push({
                     originalText: child.nodeValue ?? '',
                     currentLanguage: options.pageLanguage,
                     translatedText: nativeLang,
                     translationStatus: nativeStatus,
-                    node: child
+                    node: child,
+                    isIntersecting: false,
+                    parentElement: node.parentElement
                   });
                 }
               }
@@ -106,6 +148,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
               const index = result.findIndex(e => e.node.isSameNode(node));
               // check if this is a node we're watching
               if(index >= 0) {
+
+                // remove from intersection observer
+                if(node.parentElement) intersectionObserver.current.unobserve(node.parentElement);
+
                 // remove it
                 result.splice(index, 1);
               }
@@ -118,6 +164,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 const index = result.findIndex(e => e.node.isSameNode(child)); // TODO: inefficient
                 // check if this is a node we're watching
                 if(index >= 0) {
+
+                  // remove from intersection observer
+                  if(child.parentElement) intersectionObserver.current.unobserve(child.parentElement);
+
                   // remove it
                   result.splice(index, 1);
                 }
@@ -213,12 +263,18 @@ export function Dropdown(props: { options: DropdownOptions }) {
         nativeLang[options.pageLanguage] = node.nodeValue ?? '';
         const nativeStatus: TranslationStatusMap = {};
         nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
+
+        // add to intersection observer
+        if(node.parentElement) intersectionObserver.current.observe(node.parentElement);
+
         return {
           originalText: node.nodeValue ?? '',
           currentLanguage: options.pageLanguage,
           translatedText: nativeLang,
           translationStatus: nativeStatus,
-          node
+          node,
+          isIntersecting: false,
+          parentElement: node.parentElement
         }
       }));
     }
@@ -227,11 +283,12 @@ export function Dropdown(props: { options: DropdownOptions }) {
       // check that the language isn't set to the "Select Language" dropdown
       if(language !== '') {
         (async () => {
-          // filter translatedNodes to get a list of nodes that aren't translated to the current language
+          // filter translatedNodes to get a list of nodes that aren't translated to the current language, AND that are visible in the viewport currently
           const needsTranslating = translatedNodes
             .filter(e => e.translatedText[language] === undefined && 
               (e.translationStatus[language] === undefined ||  
-              e.translationStatus[language] === TranslationStatus.NotTranslated));
+              e.translationStatus[language] === TranslationStatus.NotTranslated) &&
+              e.isIntersecting === true);
 
           console.log(`needs translating (${needsTranslating.length}): `, needsTranslating);
           // if any translations need to be fetched, do them
@@ -281,7 +338,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
 
         // update the DOM with whatever is stored in the state
         // check if any of the "currentLanguage" is different from the dropdown setting
-        if(translatedNodes.some(e => e.currentLanguage !== language && e.translatedText[language] !== undefined)) {
+        if(translatedNodes.some(e => e.currentLanguage !== language && e.translatedText[language] !== undefined && e.isIntersecting === true)) {
           setTranslatedNodes(previous => {
             const results = previous.slice();
             // update "currentLanguage" field and update DOM

@@ -9,7 +9,7 @@ import { chunkedArray, customFilter, existsInside, textNodesUnder, translate } f
 
 const styles = {
   wrap: css`
-    width: 150px;
+    width: 160px;
   `,
   gadgetSelect: css`
     width: 100%;

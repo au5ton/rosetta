@@ -32,6 +32,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
   const bodyRef = useRef(document.body);
+  const htmlRef = useRef(document.querySelector('html'));
   const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
 
   // Only run on first mount
@@ -243,6 +244,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
     console.log('language changed')
     if(language !== '' && options.pageLanguage !== language) {
       setShowBanner(true);
+      htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
+    }
+    else {
+      htmlRef.current?.setAttribute('lang', options.pageLanguage);
     }
     setLastLanguage(language)
   }, [language])

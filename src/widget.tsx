@@ -14,6 +14,14 @@ export function initHook(args: any, mountLocation: string) {
     logoImageUrl: extract(args, 'logoImageUrl', undefined),
     preferredSupportedLanguages: extract(args, 'preferredSupportedLanguages', []),
     intersectionThreshold: extract(args, 'intersectionThreshold', 1.0),
+    helpText: args.helpText ? {
+      title: extract(args, ['helpText', 'title'], ''),
+      message: extract(args, ['helpText', 'message'], ''),
+    } : undefined,
+    infoText: args.infoText ? {
+      title: extract(args, ['infoText', 'title'], ''),
+      message: extract(args, ['infoText', 'message'], ''),
+    } : undefined,
     endpoints: {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'

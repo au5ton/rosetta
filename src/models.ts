@@ -1,4 +1,9 @@
 
+export interface AlertText {
+  title: string;
+  message: string;
+}
+
 /**
  * The arguments when launching the widget
  */
@@ -26,6 +31,12 @@ export interface DropdownOptions {
    * See: https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
    */
   intersectionThreshold: number;
+  /**
+   * Used for specifying message that appears when the help and info button are pressed.
+   * Providing undefined disables and hides the button.
+   */
+  helpText: AlertText | undefined;
+  infoText: AlertText | undefined;
   /**
    * URL of the endpoints for the API backing this widget
    */

@@ -399,6 +399,8 @@ export function Dropdown(props: { options: DropdownOptions }) {
           supportedLanguages={supportedLanguages} 
           logoImageUrl={options.logoImageUrl} 
           isLoading={isLoading} 
+          helpText={props.options.helpText} 
+          infoText={props.options.infoText} 
           handleExit={handleExit}
           handleLanguageChange={handleChange} />
       , document.body) : ''}

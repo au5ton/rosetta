@@ -1,10 +1,11 @@
 import React from 'react'
 import { css } from '@emotion/css'
 import { Global, css as cssr } from '@emotion/react'
-import { CancelOutlinedIcon, LoaderRings } from './SvgComponent'
-import whiteFadeImg from '../resource/te_bk.gif'
-//import ringsImg from '../resource/rings.svg'
-import { SupportedLanguage } from './models'
+import Swal from 'sweetalert2'
+import { CancelOutlinedIcon, HelpOutlinedIcon, InfoOutlinedIcon, LoaderRings } from './SvgComponent'
+import { AlertText, SupportedLanguage } from './models'
+
+const mobileBreakpoint = '530px';
 
 const styles = {
   global: cssr`
@@ -12,6 +13,11 @@ const styles = {
       position: relative;
       min-height: 100%;
       top: 40px;
+    }
+    @media (max-width: ${mobileBreakpoint}) {
+      body {
+        top: 80px;
+      }
     }
   `,
   frame: css`
@@ -30,16 +36,17 @@ const styles = {
     -moz-box-shadow: 0 0 8px 1px #999999;
     -webkit-box-shadow: 0 0 8px 1px #999999;
     box-shadow: 0 0 8px 1px #999999;
+    @media (max-width: ${mobileBreakpoint}) {
+      height: 79px;
+    }
   `,
   banner: css`
     margin: 0;
-    background-color: #e4effb;
-    background-image: url("${whiteFadeImg}");
-    overflow: hidden;
+    background: linear-gradient(#fff, #E8F2FB);
+    overflow: scroll;
     height: 100%;
     // width: 100%;
     display: flex;
-    flex-diretion: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
@@ -49,6 +56,12 @@ const styles = {
       font-family: arial;
       font-size: 10pt;
     }
+    @media (max-width: ${mobileBreakpoint}) {
+      flex-wrap: wrap;
+    }
+    button[disabled] {
+      cursor: not-allowed;
+    }
   `,
   bannerLogo: css`
     height: 1.1rem;
@@ -56,7 +69,7 @@ const styles = {
   bannerSpinner: css`
     color: #757575;
   `,
-  bannerExitAnchor: css`
+  bannerActionIcons: css`
     margin-left: auto;
     margin-right: 0px!important;
     order: 2;
@@ -67,6 +80,20 @@ const styles = {
     :hover {
       color: #1976d2;
     }
+
+    svg {
+      //color: #212121;
+      color: #757575;
+    }
+    svg:hover {
+      color: #1976d2;
+    }
+  `,
+  customSweetAlert: css`
+    font-family: sans-serif;
+  `,
+  customSweetAlertText: css`
+    font-size: 1em;
   `,
 };
 
@@ -75,6 +102,9 @@ interface BannerProps {
   pageLanguage: string;
   // Image that is viewable at the far left of the banner
   logoImageUrl: string | undefined;
+  // Text to show when help + info buttons are pressed
+  helpText: AlertText | undefined;
+  infoText: AlertText | undefined;
   // Are translations still loading?
   isLoading: boolean;
   // The selected language
@@ -97,6 +127,36 @@ export function Banner(props: BannerProps) {
     props.handleLanguageChange(props.pageLanguage);
   }
 
+  const handleHelpButtonClicked = () => {
+    if(props.helpText) {
+      Swal.fire({
+        titleText: props.helpText.title,
+        text: props.helpText.message,
+        icon: 'info',
+        confirmButtonText: 'Close',
+        customClass: {
+          container: `skiptranslate ${styles.customSweetAlert}`,
+          htmlContainer: `${styles.customSweetAlertText}`
+        }
+      });
+    }
+  };
+
+  const handleInfoButtonClicked = () => {
+    if(props.infoText) {
+      Swal.fire({
+        titleText: props.infoText.title,
+        text: props.infoText.message,
+        icon: 'info',
+        confirmButtonText: 'Close',
+        customClass: {
+          container: `skiptranslate ${styles.customSweetAlert}`,
+          htmlContainer: `${styles.customSweetAlertText}`
+        }
+      });
+    }
+  };
+
   return (
     <>
       <Global styles={styles.global} />
@@ -118,7 +178,25 @@ export function Banner(props: BannerProps) {
               </select>
             </>}
           <button onClick={handleClick} disabled={isButtonDisabled}>Show original</button>
-          <div className={styles.bannerExitAnchor} onClick={props.handleExit} title="Close"><CancelOutlinedIcon /></div>
+          <div className={styles.bannerActionIcons}>
+            { 
+              props.helpText ? 
+              <span title={props.helpText.title}>
+                <HelpOutlinedIcon onClick={handleHelpButtonClicked} />
+              </span>
+              : <></>
+            }
+            { 
+              props.infoText ? 
+              <span title={props.infoText.title}>
+                <InfoOutlinedIcon onClick={handleInfoButtonClicked} />
+              </span>
+              : <></>
+            }
+            <span title="Close">
+              <CancelOutlinedIcon onClick={props.handleExit} />
+            </span>
+          </div>
         </div>
       </div>
     </>

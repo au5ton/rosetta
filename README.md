@@ -38,6 +38,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
 - The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
 - Bypass translation using the CSS class `.skiptranslate`
 - Only the elements that are visible in the viewport are translated, detected with [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver).
+- Configurable "info" and "help" buttons which can display custom text, such as help text or a disclaimer.
 
 ## Limitations
 
@@ -73,9 +74,9 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
         pageLanguage: 'en',
         chunkSize: 10,
         // For Microsoft Translator API
-        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.0/dist/msft-translator.svg',
+        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.1/dist/msft-translator.svg',
         // For Google Cloud Translation API
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.0/dist/google-translate.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.1/dist/google-translate.svg',
         // To include a custom logo in the banner
         // logoImageUrl: 'https://via.placeholder.com/120x20',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de', 'fr'], // or [] to include everything
@@ -86,7 +87,7 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.0/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end

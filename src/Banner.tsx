@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/css'
 import { Global, css as cssr } from '@emotion/react'
 import Swal from 'sweetalert2'
-import { CancelOutlinedIcon, HelpOutlinedIcon, InfoOutlinedIcon, LoaderRings } from './SvgComponent'
+import { CancelOutlinedIcon, HelpOutlinedIcon, InfoOutlinedIcon, LoaderRings, TranslateIcon } from './SvgComponent'
 import { AlertText, SupportedLanguage } from './models'
 
 const mobileBreakpoint = '530px';
@@ -43,7 +43,7 @@ const styles = {
   banner: css`
     margin: 0;
     background: linear-gradient(#fff, #E8F2FB);
-    overflow: scroll;
+    overflow: hidden;
     height: 100%;
     // width: 100%;
     display: flex;
@@ -65,6 +65,12 @@ const styles = {
   `,
   bannerLogo: css`
     height: 1.1rem;
+  `,
+  bannerLogoIcon: css`
+    height: 1.5rem;
+    width: 1.5rem;
+    //color: #115293;
+    color: #1976d2;
   `,
   bannerSpinner: css`
     color: #757575;
@@ -162,7 +168,15 @@ export function Banner(props: BannerProps) {
       <Global styles={styles.global} />
       <div className={`${styles.frame} skiptranslate`}>
         <div className={styles.banner}>
-          { props.logoImageUrl ? <img className={styles.bannerLogo} src={props.logoImageUrl} /> : <></>}
+          { 
+            props.logoImageUrl ? 
+            <>
+              <img className={styles.bannerLogo} src={props.logoImageUrl} />
+            </> : 
+            <span title="Language translator">
+              <TranslateIcon extraClasses={styles.bannerLogoIcon} />
+            </span>
+          }
           { 
             props.isLoading ? 
             <>

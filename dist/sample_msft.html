@@ -37,7 +37,7 @@
           <li> <a href="#" title="Careers">Careers</a> </li>
         </ul>
       </nav>
-      <h2 style="color: tomato">Sample 1a with Translate Widget</h2>
+      <h2 style="color: tomato">Sample 1c with Translate Widget</h2>
       <div id="google_translate_element"></div>
       <div id="translate_widget_element"></div>
       <h3>All Examples</h3>
@@ -430,16 +430,11 @@
       au5ton.translateWidget({
         pageLanguage: 'en',
         chunkSize: 10,
-        attributionImageUrl: 'google-translate.svg',
-        preferredSupportedLanguages: ['en', 'es', 'zh', 'de'],
-        infoText: {
-          title: 'Disclaimer', // From: https://cloud.google.com/translate/attribution#disclaimer
-          message: 'THIS SERVICE MAY CONTAIN TRANSLATIONS POWERED BY GOOGLE. GOOGLE DISCLAIMS ALL WARRANTIES RELATED TO THE TRANSLATIONS, EXPRESS OR IMPLIED, INCLUDING ANY WARRANTIES OF ACCURACY, RELIABILITY, AND ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. ' +
-          'The official text is the English version of the website. Any discrepancies or differences created in the translation are not binding and have no legal effect for compliance or enforcement purposes. If any questions arise related to the accuracy of the information contained in the translated website, refer to the English version of the website which is the official version.'
-        },
+        attributionImageUrl: 'msft-translator.svg',
+        //preferredSupportedLanguages: ['en', 'es', 'fr', 'zh', 'de'],
         endpoints: {
-          //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
-          //translate: 'http://wlinux.wsl:3000/api/v3/translate'
+          //supportedLanguages: 'http://wlinux.wsl:3000/api/legacy/supportedLanguages',
+          //translate: 'http://wlinux.wsl:3000/api/legacy/translate'
           supportedLanguages: 'https://rosetta-demo-server.vercel.app/api/v3/supportedLanguages',
           translate: 'https://rosetta-demo-server.vercel.app/api/v3/translate'
         }

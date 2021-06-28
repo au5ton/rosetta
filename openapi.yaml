@@ -9,8 +9,13 @@ externalDocs:
 servers:
 - url: https://YOUR_SERVER_HERE.com/
 - url: https://rosetta-demo-server.vercel.app/api/legacy
+  description: Data is sourced from [@vitalets/google-translate-api](https://github.com/vitalets/google-translate-api)
 - url: https://rosetta-demo-server.vercel.app/api/v2
+  description: Data is sourced from [Google Cloud Translation API (Basic)](https://cloud.google.com/translate/docs/reference/libraries/v2/overview-v2)
 - url: https://rosetta-demo-server.vercel.app/api/v3
+  description: Data is sourced from [Google Cloud Translation API (Advanced)](https://cloud.google.com/translate/docs/reference/libraries/v3/overview-v3)
+- url: https://rosetta-demo-server.vercel.app/api/msft
+  description: Data is sourced from [Microsoft Translator API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
 paths:
   /translate:
     post:

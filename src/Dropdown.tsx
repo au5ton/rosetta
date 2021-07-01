@@ -133,7 +133,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                     translationStatus: nativeStatus,
                     node: child,
                     isIntersecting: false,
-                    parentElement: node.parentElement
+                    parentElement: child.parentElement
                   });
                 }
               }
@@ -293,7 +293,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             .filter(e => e.translatedText[language] === undefined && 
               (e.translationStatus[language] === undefined ||  
               e.translationStatus[language] === TranslationStatus.NotTranslated) &&
-              e.isIntersecting === true);
+              (options.ignoreIntersection === true || e.isIntersecting === true));
 
           console.log(`needs translating (${needsTranslating.length}): `, needsTranslating);
           // if any translations need to be fetched, do them
@@ -343,7 +343,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
 
         // update the DOM with whatever is stored in the state
         // check if any of the "currentLanguage" is different from the dropdown setting
-        if(translatedNodes.some(e => e.currentLanguage !== language && e.translatedText[language] !== undefined && e.isIntersecting === true)) {
+        if(translatedNodes.some(e => e.currentLanguage !== language && e.translatedText[language] !== undefined && (options.ignoreIntersection === true || e.isIntersecting === true))) {
           setTranslatedNodes(previous => {
             const results = previous.slice();
             // update "currentLanguage" field and update DOM

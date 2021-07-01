@@ -32,6 +32,11 @@ export interface DropdownOptions {
    */
   intersectionThreshold: number;
   /**
+   * Translations will be made to elements, even if they aren't detected to be intersecting with the page.
+   * The behavior of this option is untested and isn't recommended.
+   */
+  ignoreIntersection: boolean;
+  /**
    * Used for specifying message that appears when the help and info button are pressed.
    * Providing undefined disables and hides the button.
    */

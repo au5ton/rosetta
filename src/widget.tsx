@@ -14,6 +14,7 @@ export function initHook(args: any, mountLocation: string) {
     logoImageUrl: extract(args, 'logoImageUrl', undefined),
     preferredSupportedLanguages: extract(args, 'preferredSupportedLanguages', []),
     intersectionThreshold: extract(args, 'intersectionThreshold', 0.0),
+    ignoreIntersection: extract(args, 'ignoreIntersection', false),
     helpText: args.helpText ? {
       title: extract(args, ['helpText', 'title'], ''),
       message: extract(args, ['helpText', 'message'], ''),

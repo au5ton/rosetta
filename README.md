@@ -39,7 +39,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
   - This will work best if your back-end also caches translations.
 - Progress indicators are shown while translations are in progress
 
-  <img style="background: linear-gradient(#fff, #E8F2FB);" src="resource/rings.svg" alt="rings">
+  ![rings](resource/rings.svg)
 
 - The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
 - Bypass translation using the CSS class `.skiptranslate`

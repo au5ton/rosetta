@@ -30,7 +30,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
 
     <img src="dist/google-translate.svg" alt="Google Translate" width="160" />
     <br />
-    <img src="dist/msft-translator.svg" alt="Microsoft Translator" width="160" />
+    <img src="dist/msft-translator-adapt.svg" alt="Microsoft Translator" width="160" />
 
 - Easy to use interface that is very similar to the original Google Translate widget
 - Can limit the number of language options available with option `preferredSupportedLanguages`
@@ -39,7 +39,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
   - This will work best if your back-end also caches translations.
 - Progress indicators are shown while translations are in progress
 
-  ![rings](resource/rings.svg)
+  <img style="background: linear-gradient(#fff, #E8F2FB);" src="resource/rings.svg" alt="rings">
 
 - The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
 - Bypass translation using the CSS class `.skiptranslate`

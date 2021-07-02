@@ -42,7 +42,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
   ![rings](resource/rings.svg)
 
 - The last language you selected is saved so the next page you visit after clicking a link automatically translates ([per session per origin](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage))
-- Bypass translation using the CSS class `.skiptranslate`
+- Bypass translation using the CSS class `.skiptranslate` or attribute `data-rosetta-skiptranslate="true"`. Applying these to a parent, means that it applies to its children as well.
 - Only the elements that are visible in the viewport are translated, detected with [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver).
 - Configurable "info" and "help" buttons which can display custom text, such as help text or a disclaimer.
 

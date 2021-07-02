@@ -45,7 +45,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   /**
    * Here, the results from our IntersectionObserver are merged with our existing dataset
    */
-  const handleElementIntersection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  const handleElementIntersection = (entries: IntersectionObserverEntry[]) => {
     setTranslatedNodes(previous => {
       const result = previous.slice();
       // for all items

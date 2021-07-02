@@ -12,8 +12,12 @@ export const customFilter: NodeFilter = {
    * @param node 
    */
   acceptNode(node: Node): number {
-    // skip all `.skiptranslate` blocks
-    if(anyParentSatisfies(node, e => e.className.includes('skiptranslate'))) {
+    // skip parents with `.skiptranslate`
+    if(anyParentSatisfies(node, e => typeof e.className === 'string' && e.className.includes('skiptranslate'))) {
+      return NodeFilter.FILTER_REJECT
+    }
+    // skip parents with data-rosetta-skiptranslate="true"
+    if(anyParentSatisfies(node, e => e.getAttribute('data-rosetta-skiptranslate') === "true")) {
       return NodeFilter.FILTER_REJECT
     }
     // skip nodes that have children
@@ -121,7 +125,7 @@ export function extract(obj: {[key: string]: any}, key: string | string[], defau
   }
 }
 
-export function existsInside<T>(array: T[], predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any) {
+export function existsInside<T>(array: T[], predicate: (value: T, index: number, obj: T[]) => unknown) {
   return array.findIndex(predicate) >= 0;
 }
 

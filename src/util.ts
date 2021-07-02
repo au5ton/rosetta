@@ -1,5 +1,7 @@
 
 export const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
+export const regexOnlyWhitespace = /^[\s]*$/;
+export const regexOnlyDigitsWhiteSpacePunctuation = /^[\d\s!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]*$/;
 
 export const customFilter: NodeFilter = {
   /**
@@ -25,7 +27,11 @@ export const customFilter: NodeFilter = {
       return NodeFilter.FILTER_SKIP
     }
     // skip nodes that contain only whitespace
-    if(node.nodeValue?.trim() === '') {
+    if(regexOnlyWhitespace.test(node.nodeValue ?? '')) {
+      return NodeFilter.FILTER_REJECT
+    }
+    // skip nodes that only contain numbers, whitespace, or punctuation
+    if(regexOnlyDigitsWhiteSpacePunctuation.test(node.nodeValue ?? '')) {
       return NodeFilter.FILTER_REJECT
     }
     // skip <script>, <pre>, and other forbidden nodes

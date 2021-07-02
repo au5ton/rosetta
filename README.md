@@ -80,9 +80,9 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
         pageLanguage: 'en',
         chunkSize: 10,
         // For Microsoft Translator API
-        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.5/dist/msft-translator.svg',
+        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.6/dist/msft-translator.svg',
         // For Google Cloud Translation API
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.5/dist/google-translate.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.6/dist/google-translate.svg',
         // To include a custom logo in the banner
         // logoImageUrl: 'https://via.placeholder.com/120x20',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de', 'fr'], // or [] to include everything
@@ -93,7 +93,7 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.5/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.6/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end

@@ -30,7 +30,7 @@ The goal of this project is to revive the simple "plug and play" usage of the le
 
     <img src="dist/google-translate.svg" alt="Google Translate" width="160" />
     <br />
-    <img src="dist/msft-translator-adapt.svg" alt="Microsoft Translator" width="160" />
+    <img src="dist/msft-translator.svg" alt="Microsoft Translator" width="160" />
 
 - Easy to use interface that is very similar to the original Google Translate widget
 - Can limit the number of language options available with option `preferredSupportedLanguages`

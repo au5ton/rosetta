@@ -67,6 +67,8 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
 
 ### Front-end
 
+For a complete list of options and what they do, see [options.ts](src/options.ts). Their default values can be seen as they are initialized in [widget.tsx](src/widget.tsx).
+
 ```html
   <!-- Whereever you want the widget to appear -->
   <div id="translate_widget_element"></div>
@@ -86,6 +88,9 @@ Only ES6 (ECMAScript 2015) is supported. This is because [esbuild](https://githu
         // To include a custom logo in the banner
         // logoImageUrl: 'https://via.placeholder.com/120x20',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de', 'fr'], // or [] to include everything
+        // List of CSS classes to ignore when translating
+        // Example: Ignore Google Place Autocomplete popovers
+        // ignoreClasses: ['pac-container', 'pac-logo'],
         endpoints: {
           supportedLanguages: 'https://rosetta-demo-server.vercel.app/api/v3/supportedLanguages',
           translate: 'https://rosetta-demo-server.vercel.app/api/v3/translate'

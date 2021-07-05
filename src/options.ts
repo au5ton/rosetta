@@ -35,6 +35,10 @@ export interface DropdownOptions {
   /**
    * Classes to ignore when translating. Useful for specifing other widgets or third-party sections 
    * where adding the ".skiptranslate" class is impractical.
+   * 
+   * Example: 
+   *  Ignore Google Place Autocomplete popovers
+   *  ['pac-container', 'pac-logo']
    */
   ignoreClasses: string[];
   /**

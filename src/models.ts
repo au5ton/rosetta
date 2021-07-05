@@ -37,6 +37,11 @@ export interface DropdownOptions {
    */
   ignoreIntersection: boolean;
   /**
+   * Classes to ignore when translating. Useful for specifing other widgets or third-party sections 
+   * where adding the ".skiptranslate" class is impractical.
+   */
+  ignoreClasses: string[];
+  /**
    * Used for specifying message that appears when the help and info button are pressed.
    * Providing undefined disables and hides the button.
    */

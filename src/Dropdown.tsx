@@ -5,7 +5,8 @@ import useSWR from 'swr'
 import { useMutationObserver, useSessionstorage } from 'rooks'
 import { Banner } from './Banner'
 import { DropdownOptions, SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
-import { chunkedArray, customFilter, existsInside, textNodesUnder, translate } from './util'
+import { chunkedArray, existsInside, translate } from './util'
+import { CustomTreeWalker } from './customTreeWalker'
 
 const styles = {
   wrap: css`
@@ -34,6 +35,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const bodyRef = useRef(document.body);
   const htmlRef = useRef(document.querySelector('html'));
   const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
+  const [customTreeWalker, _] = useState(new CustomTreeWalker(options));
 
   // Only run on first mount
   useEffect(() => {
@@ -90,7 +92,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             // use this as a shorthand
             const node = mutation.addedNodes[i];
             // check if this is a Node we even want, reusing our custom filter
-            if(customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
+            if(customTreeWalker.customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
               // make sure this node isn't one we're already watching
               if(! existsInside(result, e => e.node.isSameNode(node))) {
                 const nativeLang: TranslatedTextMap = {};
@@ -114,7 +116,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             }
             // if this is not a Node that we want, maybe it's children are
             else {
-              const children = textNodesUnder(node);
+              const children = customTreeWalker.textNodesUnder(node);
               for(let child of children) {
                 // make sure this node isn't one we're already watching
                 if(! existsInside(result, e => e.node.isSameNode(child))) {
@@ -144,7 +146,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             // use this as a shorthand
             const node = mutation.removedNodes[i];
             // check if this is a Node we are monitoring, reusing our custom filter
-            if(customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
+            if(customTreeWalker.customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
               // find the index of this node in translatedNodes
               const index = result.findIndex(e => e.node.isSameNode(node));
               // check if this is a node we're watching
@@ -159,7 +161,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             }
             // if this is not a Node that we want, maybe it's children are
             else {
-              const children = textNodesUnder(node);
+              const children = customTreeWalker.textNodesUnder(node);
               for(let child of children) {
                 // find the index of this node in translatedNodes
                 const index = result.findIndex(e => e.node.isSameNode(child)); // TODO: inefficient
@@ -261,7 +263,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
     // if translatedNodes is not initialized, initialize it
     if(translatedNodes.length === 0) {
       // get all leaf text nodes
-      const nodes = textNodesUnder(document.body);
+      const nodes = customTreeWalker.textNodesUnder(document.body);
       // compose our result
       setTranslatedNodes(nodes.map(node => {
         const nativeLang: TranslatedTextMap = {};

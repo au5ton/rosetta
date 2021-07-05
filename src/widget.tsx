@@ -15,6 +15,7 @@ export function initHook(args: any, mountLocation: string) {
     preferredSupportedLanguages: extract(args, 'preferredSupportedLanguages', []),
     intersectionThreshold: extract(args, 'intersectionThreshold', 0.0),
     ignoreIntersection: extract(args, 'ignoreIntersection', false),
+    ignoreClasses: extract(args, 'ignoreClasses', []),
     helpText: args.helpText ? {
       title: extract(args, ['helpText', 'title'], ''),
       message: extract(args, ['helpText', 'message'], ''),

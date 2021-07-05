@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Dropdown } from './Dropdown'
-import { DropdownOptions } from './models';
+import { DropdownOptions } from './options'
 import { extract } from './util'
 
 export function initHook(args: any, mountLocation: string) {

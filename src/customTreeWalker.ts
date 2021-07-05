@@ -1,5 +1,5 @@
 
-import { DropdownOptions } from './models'
+import { DropdownOptions } from './options'
 
 export const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
 export const regexOnlyWhitespace = /^[\s]*$/;

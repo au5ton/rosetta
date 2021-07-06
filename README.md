@@ -82,9 +82,9 @@ For a complete list of options and what they do, see [options.ts](src/options.ts
         pageLanguage: 'en',
         chunkSize: 10,
         // For Microsoft Translator API
-        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.8/dist/msft-translator.svg',
+        // attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.5.0/dist/msft-translator.svg',
         // For Google Cloud Translation API
-        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.8/dist/google-translate.svg',
+        attributionImageUrl: 'https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.5.0/dist/google-translate.svg',
         // To include a custom logo in the banner
         // logoImageUrl: 'https://via.placeholder.com/120x20',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de', 'fr'], // or [] to include everything
@@ -98,7 +98,7 @@ For a complete list of options and what they do, see [options.ts](src/options.ts
       }, 'translate_widget_element');
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.4.8/dist/index.js" onload="widgetTranslateElementInit()"></script>
+  <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.5.0/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
 ### Back-end

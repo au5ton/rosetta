@@ -25,13 +25,14 @@ const styles = {
 export function Dropdown(props: { options: DropdownOptions }) {
   const { options } = props
   // fetch the supported languages by our provider
-  const { data } = useSWR<SupportedLanguage[]>(`${options.endpoints.supportedLanguages}?target=${options.pageLanguage}`);
+  const { data, error: dataError } = useSWR<SupportedLanguage[]>(`${options.endpoints.supportedLanguages}?target=${options.pageLanguage}`);
+  const isSupportedLanguageLoading = dataError || !data;
   // store the supported languages seperately from the API call
   const [supportedLanguages, setSupportedLanguages] = useState<SupportedLanguage[]>([ { displayName: 'Select Language', languageCode: '' } ]);
   // for UI
   const [language, setLanguage] = useState('');
   const [showBanner, setShowBanner] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(isSupportedLanguageLoading);
   const [translatedNodes, setTranslatedNodes] = useState<TranslatedNode[]>([]);
   const bodyRef = useRef(document.body);
   const htmlRef = useRef(document.querySelector('html'));
@@ -340,7 +341,6 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 return results;
               });
             }
-            setIsLoading(false);
           }
         })();
 
@@ -359,6 +359,13 @@ export function Dropdown(props: { options: DropdownOptions }) {
             }
             return results;
           })
+        }
+
+        if(translatedNodes.some(e => e.translationStatus[language] === TranslationStatus.InProgress)) {
+          setIsLoading(true);
+        }
+        else {
+          setIsLoading(false);
         }
       }
     }

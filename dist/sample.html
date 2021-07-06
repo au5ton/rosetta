@@ -28,6 +28,7 @@
       -->
     <header>
       <h1 class="other-class"><a href="" title="Site title">Site title ("other-class")</a></h1>
+      <h2 id="foo_bar">My ID is foo_bar.</h2>
       <nav>
         <ul>
           <li> <a href="#" title="Home">Home</a> </li>
@@ -437,6 +438,7 @@
         attributionImageUrl: 'google-translate.svg',
         preferredSupportedLanguages: ['en', 'es', 'zh', 'de'],
         ignoreClasses: ['other-class'],
+        ignoreSelectors: ['#foo_bar'],
         infoText: {
           title: 'Disclaimer', // From: https://cloud.google.com/translate/attribution#disclaimer
           message: 'THIS SERVICE MAY CONTAIN TRANSLATIONS POWERED BY GOOGLE. GOOGLE DISCLAIMS ALL WARRANTIES RELATED TO THE TRANSLATIONS, EXPRESS OR IMPLIED, INCLUDING ANY WARRANTIES OF ACCURACY, RELIABILITY, AND ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. ' +

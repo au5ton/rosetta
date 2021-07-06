@@ -35,6 +35,12 @@ export class CustomTreeWalker {
             return NodeFilter.FILTER_REJECT
           }
         }
+        // skip parents that include one of the configurable selectors
+        for(let selector of options.ignoreSelectors) {
+          if(anyParentSatisfies(node, e => e instanceof Element && e.matches(selector))) {
+            return NodeFilter.FILTER_REJECT
+          }
+        }
         // skip nodes that have children
         if(node.childNodes.length > 0) {
           return NodeFilter.FILTER_SKIP

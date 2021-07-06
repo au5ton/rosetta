@@ -16,6 +16,9 @@ export function initHook(args: any, mountLocation: string) {
     intersectionThreshold: extract(args, 'intersectionThreshold', 0.0),
     ignoreIntersection: extract(args, 'ignoreIntersection', false),
     ignoreClasses: extract(args, 'ignoreClasses', []),
+    ignoreSelectors: extract(args, 'ignoreSelectors', []),
+    verboseOutput: extract(args, 'verboseOutput', false),
+    updateDocumentLanguageAttribute: extract(args, 'updateDocumentLanguageAttribute', false),
     helpText: args.helpText ? {
       title: extract(args, ['helpText', 'title'], ''),
       message: extract(args, ['helpText', 'message'], ''),

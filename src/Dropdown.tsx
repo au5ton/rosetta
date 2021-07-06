@@ -244,13 +244,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
    * Respond to changes in language
    */
   useEffect(() => {
-    console.log('language changed')
-    if(language !== '' && options.pageLanguage !== language) {
-      setShowBanner(true);
-      htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
-    }
-    else {
-      htmlRef.current?.setAttribute('lang', options.pageLanguage);
+    if(options.verboseOutput) console.log('language changed')
+    if(options.updateDocumentLanguageAttribute) {
+      if(language !== '' && options.pageLanguage !== language) {
+        setShowBanner(true);
+        htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
+      }
+      else {
+        htmlRef.current?.setAttribute('lang', options.pageLanguage);
+      }
     }
     setLastLanguage(language)
   }, [language])
@@ -260,7 +262,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
    * This pairs with handleDocumentMutation
    */
   useEffect(() => {
-    console.log('translatedNodes effect! language: ', language, translatedNodes);
+    if(options.verboseOutput) console.log('translatedNodes effect! language: ', language, translatedNodes);
     // if translatedNodes is not initialized, initialize it
     if(translatedNodes.length === 0) {
       // get all leaf text nodes
@@ -298,7 +300,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
               e.translationStatus[language] === TranslationStatus.NotTranslated) &&
               (options.ignoreIntersection === true || e.isIntersecting === true));
 
-          console.log(`needs translating (${needsTranslating.length}): `, needsTranslating);
+          if(options.verboseOutput) console.log(`needs translating (${needsTranslating.length}): `, needsTranslating);
           // if any translations need to be fetched, do them
           // prevent infinite loop because we'll be setting the state
           if(needsTranslating.length > 0) {

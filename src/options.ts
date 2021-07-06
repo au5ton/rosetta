@@ -42,6 +42,23 @@ export interface DropdownOptions {
    */
   ignoreClasses: string[];
   /**
+   * Selectors to ignore when translating. Useful for specifing other widgets or third-party sections 
+   * where adding the ".skiptranslate" class is impractical.
+   * 
+   * uses Element.matches() on candidate nodes
+   * see: https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
+   */
+  ignoreSelectors: string[];
+  /**
+   * Should the "lang" attribute of the <html> element be updated as languages are changed?
+   * This can have adverse effects on other tools which rely on a specific value to be present.
+   */
+  updateDocumentLanguageAttribute: boolean;
+  /**
+   * Should helpful debugging messages be printed?
+   */
+  verboseOutput: boolean;
+  /**
    * Used for specifying message that appears when the help and info button are pressed.
    * Providing undefined disables and hides the button.
    */

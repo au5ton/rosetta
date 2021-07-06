@@ -96,6 +96,9 @@ export function anyParentSatisfies(node: Node, filter: (node: HTMLElement) => bo
 export function getNearestVisibleAncestor(node: Node): HTMLElement | null {
   if(node.parentElement !== null && node.parentElement !== undefined) {
     var n = node.parentElement;
+    if(n.getClientRects().length > 0) {
+      return n;
+    }
     while(n.parentElement !== null && n.parentElement !== undefined) {
       if(n.getClientRects().length > 0) {
         return n;

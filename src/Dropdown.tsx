@@ -129,7 +129,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                   const nativeStatus: TranslationStatusMap = {};
                   nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
 
-                  const ancestor = getNearestVisibleAncestor(node);
+                  const ancestor = getNearestVisibleAncestor(child);
 
                   // add to intersection observer
                   if(ancestor) intersectionObserver.current.observe(ancestor);

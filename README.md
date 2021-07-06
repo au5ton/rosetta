@@ -1,6 +1,10 @@
 # rosetta
 
-![project status](https://badgen.net/badge/project%20status/in%20development/yellow?icon=github)
+![latest release](https://badgen.net/github/release/au5ton/rosetta)
+
+<div style="background-color:#ffc107;color:#212529;font-weight:700;padding:1rem;margin-bottom:1rem;">
+This project is under frequent development and features may change.
+</div>
 
 An alternative to Google Translate's Website Translator widget that can work with any HTTP backend.
 

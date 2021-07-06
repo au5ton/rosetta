@@ -1,6 +1,6 @@
 # rosetta
 
-![latest release](https://badgen.net/github/release/au5ton/rosetta)
+[![latest release](https://badgen.net/github/release/au5ton/rosetta)](https://github.com/au5ton/rosetta/releases/latest)
 
 ![warning](resource/warning.svg)
 

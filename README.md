@@ -2,6 +2,8 @@
 
 ![latest release](https://badgen.net/github/release/au5ton/rosetta)
 
+![warning](resource/warning.svg)
+
 <div style="background-color:#ffc107;color:#212529;font-weight:700;padding:1rem;margin-bottom:1rem;">
 This project is under frequent development and features may change.
 </div>

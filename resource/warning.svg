@@ -13,6 +13,7 @@
 					font-weight: 700;
           font-size: 16px;
           padding: 1rem;
+          border-radius: 5px;
 				}
         p {
           margin: 0;

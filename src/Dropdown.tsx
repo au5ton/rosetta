@@ -7,7 +7,7 @@ import { Banner } from './Banner'
 import { SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
 import { DropdownOptions } from './options'
 import { chunkedArray, existsInside, translate } from './util'
-import { CustomTreeWalker } from './customTreeWalker'
+import { CustomTreeWalker, getNearestVisibleAncestor } from './customTreeWalker'
 
 const styles = {
   wrap: css`
@@ -56,7 +56,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
       for(let item of result) {
         for(let entry of entries) {
           // if we find a matching pair
-          if(item.parentElement && item.parentElement.isSameNode(entry.target)) {
+          if(item.nearestVisibleAncestor && item.nearestVisibleAncestor.isSameNode(entry.target)) {
             item.isIntersecting = entry.isIntersecting;
           } 
         }
@@ -102,8 +102,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 const nativeStatus: TranslationStatusMap = {};
                 nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
 
+                const ancestor = getNearestVisibleAncestor(node);
+
                 // add to intersection observer
-                if(node.parentElement) intersectionObserver.current.observe(node.parentElement);
+                if(ancestor) intersectionObserver.current.observe(ancestor);
 
                 result.push({
                   originalText: node.nodeValue ?? '',
@@ -112,7 +114,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                   translationStatus: nativeStatus,
                   node,
                   isIntersecting: false,
-                  parentElement: node.parentElement
+                  nearestVisibleAncestor: ancestor
                 });
               }
             }
@@ -127,8 +129,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
                   const nativeStatus: TranslationStatusMap = {};
                   nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
 
+                  const ancestor = getNearestVisibleAncestor(node);
+
                   // add to intersection observer
-                  if(child.parentElement) intersectionObserver.current.observe(child.parentElement);
+                  if(ancestor) intersectionObserver.current.observe(ancestor);
 
                   result.push({
                     originalText: child.nodeValue ?? '',
@@ -137,7 +141,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                     translationStatus: nativeStatus,
                     node: child,
                     isIntersecting: false,
-                    parentElement: child.parentElement
+                    nearestVisibleAncestor: ancestor
                   });
                 }
               }
@@ -155,7 +159,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
               if(index >= 0) {
 
                 // remove from intersection observer
-                if(node.parentElement) intersectionObserver.current.unobserve(node.parentElement);
+                if(result[index].nearestVisibleAncestor) intersectionObserver.current.unobserve(result[index].nearestVisibleAncestor!);
 
                 // remove it
                 result.splice(index, 1);
@@ -171,7 +175,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 if(index >= 0) {
 
                   // remove from intersection observer
-                  if(child.parentElement) intersectionObserver.current.unobserve(child.parentElement);
+                  if(result[index].nearestVisibleAncestor) intersectionObserver.current.unobserve(result[index].nearestVisibleAncestor!);
 
                   // remove it
                   result.splice(index, 1);
@@ -183,27 +187,33 @@ export function Dropdown(props: { options: DropdownOptions }) {
         // If the text of an element changed
         if(mutation.type === 'characterData') {
 
-          // TODO: remove later when we figured out how to stop the feedback loop
-          continue;
-
           // find the index of this node in translatedNodes
-          const index = result.findIndex(e => e.node.isSameNode(mutation.target)); // TODO: inefficient
+          const index = result.findIndex(e => e.node.isSameNode(mutation.target));
           // check if this is a node we're watching
           if(index >= 0) {
-            // TODO: determine if changes are significant enough to do a round-trip call to translate it
-            
-            // clear out old translation data
-            for(let key in result[index].translatedText) {
-              result[index].translatedText[key] = undefined;
-              result[index].translationStatus[key] = TranslationStatus.NotTranslated;
+            // check if the mutation was NOT as a result of translating, and instead was updated by some other factor
+            if(result[index].translationStatus[language] === TranslationStatus.Translated && result[index].translatedText[language] !== mutation.target.nodeValue) {
+              // this mutation is one that we didnt make, so we have to update the state so it will be translated in the Effect hook
+
+              // Update information about all languages we've translated to
+              // Setting these values will cause the Effect hook to pick up on it
+              // clear out old translation data
+              for(let key in result[index].translatedText) {
+                result[index].translatedText[key] = undefined;
+                result[index].translationStatus[key] = TranslationStatus.NotTranslated;
+              }
+
+              // Update information about the page's native language
+              result[index].originalText = mutation.target.nodeValue ?? '';
+              result[index].translatedText[options.pageLanguage] = result[index].originalText;
+              result[index].translationStatus[options.pageLanguage] = TranslationStatus.Translated;
+              result[index].currentLanguage = options.pageLanguage;
             }
-  
-            // update native translation data
-            result[index].originalText = mutation.target.nodeValue ?? '';
-            result[index].translatedText[options.pageLanguage] = result[index].originalText;
-            result[index].translationStatus[options.pageLanguage] = TranslationStatus.Translated;
+            else {
+              // this mutation is one that we probably caused, so we don't want to translate it again
+              //console.log('this mutation was probably us')
+            }
           }
-          
         }
       }
       return result;
@@ -273,8 +283,10 @@ export function Dropdown(props: { options: DropdownOptions }) {
         const nativeStatus: TranslationStatusMap = {};
         nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
 
+        const ancestor = getNearestVisibleAncestor(node);
+
         // add to intersection observer
-        if(node.parentElement) intersectionObserver.current.observe(node.parentElement);
+        if(ancestor) intersectionObserver.current.observe(ancestor);
 
         return {
           originalText: node.nodeValue ?? '',
@@ -283,7 +295,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
           translationStatus: nativeStatus,
           node,
           isIntersecting: false,
-          parentElement: node.parentElement
+          nearestVisibleAncestor: ancestor
         }
       }));
     }

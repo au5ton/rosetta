@@ -31,5 +31,5 @@ export interface TranslatedNode {
   translationStatus: TranslationStatusMap;
   node: Node;
   isIntersecting: boolean;
-  parentElement: HTMLElement | null;
+  nearestVisibleAncestor: HTMLElement | null;
 }

@@ -245,14 +245,12 @@ export function Dropdown(props: { options: DropdownOptions }) {
    */
   useEffect(() => {
     if(options.verboseOutput) console.log('language changed')
-    if(options.updateDocumentLanguageAttribute) {
-      if(language !== '' && options.pageLanguage !== language) {
-        setShowBanner(true);
-        htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
-      }
-      else {
-        htmlRef.current?.setAttribute('lang', options.pageLanguage);
-      }
+    if(language !== '' && options.pageLanguage !== language) {
+      setShowBanner(true);
+      if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
+    }
+    else {
+      if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', options.pageLanguage);
     }
     setLastLanguage(language)
   }, [language])

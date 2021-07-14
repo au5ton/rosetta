@@ -9,6 +9,7 @@ export function initHook(args: any, mountLocation: string) {
   // Re-compose options with type safety checks and default values
   const options: DropdownOptions = {
     pageLanguage: extract(args, 'pageLanguage', 'en'),
+    siteName: extract(args, 'siteName', ''),
     chunkSize: extract(args, 'chunkSize', 10),
     attributionImageUrl: extract(args, 'attributionImageUrl', undefined),
     logoImageUrl: extract(args, 'logoImageUrl', undefined),

@@ -6,6 +6,8 @@ import { AlertText } from './models'
 export interface DropdownOptions {
   // The source language of the document
   pageLanguage: string;
+  // An optional identifier for the site being translated
+  siteName: string;
   // Limit the number of supported languages to only those found in this array
   // The array should contain the languageCode which corresponds to the intended language
   preferredSupportedLanguages: string[];

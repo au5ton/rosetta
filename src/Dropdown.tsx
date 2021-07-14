@@ -25,7 +25,7 @@ const styles = {
 export function Dropdown(props: { options: DropdownOptions }) {
   const { options } = props
   // fetch the supported languages by our provider
-  const { data, error: dataError } = useSWR<SupportedLanguage[]>(`${options.endpoints.supportedLanguages}?target=${options.pageLanguage}`);
+  const { data, error: dataError } = useSWR<SupportedLanguage[]>(`${options.endpoints.supportedLanguages}?target=${options.pageLanguage}&siteName=${options.siteName}`);
   const isSupportedLanguageLoading = dataError || !data;
   // store the supported languages seperately from the API call
   const [supportedLanguages, setSupportedLanguages] = useState<SupportedLanguage[]>([ { displayName: 'Select Language', languageCode: '' } ]);
@@ -333,7 +333,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             // fetch and apply translations
             for(let chunk of chunkedArray(needsTranslating, options.chunkSize)) {
               // actually do translating
-              const data = await translate(options.endpoints.translate, chunk.map(e => e.originalText), options.pageLanguage, language);
+              const data = await translate(options.endpoints.translate, chunk.map(e => e.originalText), options.pageLanguage, language, options.siteName);
               setTranslatedNodes(previous => {
                 const results = previous.slice();
                 for(let i = 0; i < chunk.length; i++) {

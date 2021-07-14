@@ -66,8 +66,8 @@ export function existsInside<T>(array: T[], predicate: (value: T, index: number,
   return array.findIndex(predicate) >= 0;
 }
 
-export async function translate(endpoint: string, text: string[], from: string, to: string): Promise<string[]> {
-  const res = await fetch(`${endpoint}?from=${from}&to=${to}`, {
+export async function translate(endpoint: string, text: string[], from: string, to: string, siteName: string): Promise<string[]> {
+  const res = await fetch(`${endpoint}?from=${from}&to=${to}&siteName=${siteName}`, {
     method: 'POST',
     body: JSON.stringify(text),
     headers: {

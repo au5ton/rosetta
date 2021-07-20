@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/css'
 import { Global, css as cssr } from '@emotion/react'
 import Swal from 'sweetalert2'
+import { TooltipHost, TooltipDelay } from '@fluentui/react';
 import { CancelOutlinedIcon, HelpOutlinedIcon, InfoOutlinedIcon, LoaderRings, TranslateIcon } from './SvgComponent'
 import { AlertText, SupportedLanguage } from './models'
 
@@ -81,17 +82,15 @@ const styles = {
     order: 2;
     height: 24px;
     cursor: pointer;
+  `,
+  bannerActionTooltip: css`
+    //
+  `,
+  bannerActionButton: css`
+    height: 24px;
     //color: #212121;
     color: #757575;
     :hover {
-      color: #1976d2;
-    }
-
-    svg {
-      //color: #212121;
-      color: #757575;
-    }
-    svg:hover {
       color: #1976d2;
     }
   `,
@@ -109,8 +108,7 @@ interface BannerProps {
   // Image that is viewable at the far left of the banner
   logoImageUrl: string | undefined;
   // Text to show when help + info buttons are pressed
-  helpText: AlertText | undefined;
-  infoText: AlertText | undefined;
+  buttons: BannerButton[];
   // Are translations still loading?
   isLoading: boolean;
   // The selected language
@@ -119,6 +117,13 @@ interface BannerProps {
   supportedLanguages: SupportedLanguage[];
   handleExit: () => void;
   handleLanguageChange: (languageCode: string) => void;
+}
+
+export interface BannerButton {
+  key: string;
+  icon: 'help' | 'info' | string;
+  tooltip: string;
+  action: AlertText | ((key: string) => void);
 }
 
 export function Banner(props: BannerProps) {
@@ -133,11 +138,15 @@ export function Banner(props: BannerProps) {
     props.handleLanguageChange(props.pageLanguage);
   }
 
-  const handleHelpButtonClicked = () => {
-    if(props.helpText) {
+  const handleActionClicked = (key: string, action: AlertText | ((key: string) => void)) => {
+    if(typeof action === 'function') {
+      action(key)
+    }
+    else {
+      const { title, message } = action || {};
       Swal.fire({
-        titleText: props.helpText.title,
-        text: props.helpText.message,
+        titleText: title,
+        text: message,
         icon: 'info',
         confirmButtonText: 'Close',
         customClass: {
@@ -146,22 +155,7 @@ export function Banner(props: BannerProps) {
         }
       });
     }
-  };
-
-  const handleInfoButtonClicked = () => {
-    if(props.infoText) {
-      Swal.fire({
-        titleText: props.infoText.title,
-        text: props.infoText.message,
-        icon: 'info',
-        confirmButtonText: 'Close',
-        customClass: {
-          container: `skiptranslate ${styles.customSweetAlert}`,
-          htmlContainer: `${styles.customSweetAlertText}`
-        }
-      });
-    }
-  };
+  }
 
   return (
     <>
@@ -193,23 +187,25 @@ export function Banner(props: BannerProps) {
             </>}
           <button onClick={handleClick} disabled={isButtonDisabled}>Show original</button>
           <div className={styles.bannerActionIcons}>
-            { 
-              props.helpText ? 
-              <span title={props.helpText.title}>
-                <HelpOutlinedIcon onClick={handleHelpButtonClicked} />
-              </span>
-              : <></>
+            {
+              props.buttons.map(e => (
+                <TooltipHost
+                  key={e.key}
+                  content={<span className={`skiptranslate ${styles.bannerActionTooltip}`}>{e.tooltip}</span>}
+                  delay={TooltipDelay.zero}
+                  styles={{ root: { display: 'inline-block' } }}
+                >
+                  { e.icon === 'help' ? <HelpOutlinedIcon extraClasses={styles.bannerActionButton} onClick={() => handleActionClicked(e.key, e.action)} /> : e.icon === 'info' ? <InfoOutlinedIcon extraClasses={styles.bannerActionButton} onClick={() => handleActionClicked(e.key, e.action)} /> : <img src={e.icon} alt={e.tooltip} className={styles.bannerActionButton} onClick={() => handleActionClicked(e.key, e.action)} /> }
+                </TooltipHost>
+              ))
             }
-            { 
-              props.infoText ? 
-              <span title={props.infoText.title}>
-                <InfoOutlinedIcon onClick={handleInfoButtonClicked} />
-              </span>
-              : <></>
-            }
-            <span title="Close">
-              <CancelOutlinedIcon onClick={props.handleExit} />
-            </span>
+            <TooltipHost
+              content={<span className={`skiptranslate ${styles.bannerActionTooltip}`}>Close</span>}
+              delay={TooltipDelay.zero}
+              styles={{ root: { display: 'inline-block' } }}
+            >
+              <CancelOutlinedIcon extraClasses={styles.bannerActionButton} onClick={props.handleExit} />
+            </TooltipHost>
           </div>
         </div>
       </div>

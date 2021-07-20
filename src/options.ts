@@ -1,4 +1,4 @@
-import { AlertText } from './models'
+import { BannerButton } from './Banner'
 
 /**
  * The arguments when launching the widget
@@ -61,11 +61,14 @@ export interface DropdownOptions {
    */
   verboseOutput: boolean;
   /**
-   * Used for specifying message that appears when the help and info button are pressed.
-   * Providing undefined disables and hides the button.
+   * Used for specifying custom buttons which appear at the top right
+   * of the banner next to the "close" button. Useful for providing
+   * a better UX such as custom instructions or functionality.
+   * 
+   * Some pre-included icons are 'help' or 'info', otherwise include
+   * a URL to an image.
    */
-  helpText: AlertText | undefined;
-  infoText: AlertText | undefined;
+  buttons: BannerButton[];
   /**
    * URL of the endpoints for the API backing this widget
    */

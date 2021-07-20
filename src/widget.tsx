@@ -20,14 +20,7 @@ export function initHook(args: any, mountLocation: string) {
     ignoreSelectors: extract(args, 'ignoreSelectors', []),
     verboseOutput: extract(args, 'verboseOutput', false),
     updateDocumentLanguageAttribute: extract(args, 'updateDocumentLanguageAttribute', false),
-    helpText: args.helpText ? {
-      title: extract(args, ['helpText', 'title'], ''),
-      message: extract(args, ['helpText', 'message'], ''),
-    } : undefined,
-    infoText: args.infoText ? {
-      title: extract(args, ['infoText', 'title'], ''),
-      message: extract(args, ['infoText', 'message'], ''),
-    } : undefined,
+    buttons: extract(args, 'buttons', []),
     endpoints: {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'

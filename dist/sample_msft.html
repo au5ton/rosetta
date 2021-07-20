@@ -436,6 +436,26 @@
         chunkSize: 10,
         attributionImageUrl: 'msft-translator.svg',
         //preferredSupportedLanguages: ['en', 'es', 'fr', 'zh', 'de'],
+        buttons: [
+          {
+            key: 'help',
+            icon: 'help',
+            tooltip: 'Help',
+            action: { title: 'title', message: 'message' },
+          },
+          {
+            key: 'info',
+            icon: 'info',
+            tooltip: 'Info',
+            action: { title: 'title', message: 'message' },
+          },
+          {
+            key: 'custom',
+            icon: 'https://via.placeholder.com/55x55',
+            tooltip: 'Custom',
+            action: () => alert('custom action'),
+          }
+        ],
         endpoints: {
           //supportedLanguages: 'http://wlinux.wsl:3000/api/msft/supportedLanguages',
           //translate: 'http://wlinux.wsl:3000/api/msft/translate'

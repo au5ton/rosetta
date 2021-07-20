@@ -467,9 +467,6 @@ export function Dropdown(props: { options: DropdownOptions }) {
         }
       </select>
       { options.attributionImageUrl ? <img className={styles.attribution} src={options.attributionImageUrl} /> : <></>}
-      {/* <p>language: {language}</p>
-      <p>prop language: {options.pageLanguage}</p>
-      <button onClick={handleClick}>Highlight Nodes</button> */}
       {showBanner ? createPortal(
         <Banner 
           pageLanguage={options.pageLanguage} 
@@ -477,8 +474,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
           supportedLanguages={supportedLanguages} 
           logoImageUrl={options.logoImageUrl} 
           isLoading={isLoading} 
-          helpText={props.options.helpText} 
-          infoText={props.options.infoText} 
+          buttons={options.buttons}
           handleExit={handleExit}
           handleLanguageChange={handleChange} />
       , document.body) : ''}

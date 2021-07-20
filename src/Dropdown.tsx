@@ -96,6 +96,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
             // check if this is a Node we even want, reusing our custom filter
             if(customTreeWalker.customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
               // make sure this node isn't one we're already watching
+              // TODO: rework for attribute nodes
+              /**
+               * TODO: rework for attribute nodes
+               * - we aren't going to mess with attributes here because 
+               *   we're within the context of customTreeWalker.customFilter.
+               *   in this context, we're ONLY dealing with nodeValue/text nodes
+               * - change condition to "! existsInside(result, e => ... && e.attributeType === 'text' )"
+               *   or something like that
+               */
               if(! existsInside(result, e => e.node.isSameNode(node))) {
                 const nativeLang: TranslatedTextMap = {};
                 nativeLang[options.pageLanguage] = node.nodeValue ?? '';
@@ -123,6 +132,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
               const children = customTreeWalker.textNodesUnder(node);
               for(let child of children) {
                 // make sure this node isn't one we're already watching
+                // TODO: same as above
                 if(! existsInside(result, e => e.node.isSameNode(child))) {
                   const nativeLang: TranslatedTextMap = {};
                   nativeLang[options.pageLanguage] = child.nodeValue ?? '';
@@ -146,12 +156,24 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 }
               }
             }
+
+            /**
+             * TODO:
+             * - above, we checked for nodes which satisfy our criteria for text/"nodeValue" nodes
+             * - below, we're going to do the same thing but for "attribute" nodes
+             * - a custom tree walker would probably help. in fact, it might be perfect
+             *   because it means that we can reuse code and copy/paste patterns that
+             *   already work well.
+             */
+
+            // TODO: insert code here
           }
           // Remove the removed nodes from translatedNodes
           for(let i = 0; i < mutation.removedNodes.length; i++) {
             // use this as a shorthand
             const node = mutation.removedNodes[i];
             // check if this is a Node we are monitoring, reusing our custom filter
+            // TODO: similar to above, make sure this only affects text/"nodeValue" nodes
             if(customTreeWalker.customFilter.acceptNode(node) === NodeFilter.FILTER_ACCEPT) {
               // find the index of this node in translatedNodes
               const index = result.findIndex(e => e.node.isSameNode(node));
@@ -159,6 +181,14 @@ export function Dropdown(props: { options: DropdownOptions }) {
               if(index >= 0) {
 
                 // remove from intersection observer
+                /**
+                 * TODO: make sure we aren't "unobserve"ing a shared ancestor
+                 * - this should only be called if there is only 1 node which has this ancestor value
+                 * - if there are multiple nodes that have this ancestor value, just delete this 
+                 *   node and skip "unobserve"
+                 * - when the last node which contains this "ancestor" is removed, this condition 
+                 *   will kick in and then we will properly "unobserve"
+                 */
                 if(result[index].nearestVisibleAncestor) intersectionObserver.current.unobserve(result[index].nearestVisibleAncestor!);
 
                 // remove it
@@ -175,6 +205,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 if(index >= 0) {
 
                   // remove from intersection observer
+                  // TODO: similar to above, shared ancestor
                   if(result[index].nearestVisibleAncestor) intersectionObserver.current.unobserve(result[index].nearestVisibleAncestor!);
 
                   // remove it
@@ -182,9 +213,18 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 }
               }
             }
+
+            // TODO: similar to above, process for "attribute" nodes
+            
+            // TODO: insert code here
           }
         }
         // If the text of an element changed
+        /**
+         * TODO: 
+         * - mutation type 'characterData' ONLY affects text/"nodeValue" nodes!
+         * - take action accordingly
+         */
         if(mutation.type === 'characterData') {
 
           // find the index of this node in translatedNodes
@@ -215,6 +255,15 @@ export function Dropdown(props: { options: DropdownOptions }) {
             }
           }
         }
+
+        /**
+         * TODO:
+         * - respond to mutation.type === 'attributes'
+         * - this will ONLY affect "attribute" nodes
+         * - take action accordingly
+         */
+
+        // TODO: insert code here
       }
       return result;
     });
@@ -276,10 +325,11 @@ export function Dropdown(props: { options: DropdownOptions }) {
     if(translatedNodes.length === 0) {
       // get all leaf text nodes
       const nodes = customTreeWalker.textNodesUnder(document.body);
+      // TODO: get nodes with attributes
       // compose our result
       setTranslatedNodes(nodes.map(node => {
         const nativeLang: TranslatedTextMap = {};
-        nativeLang[options.pageLanguage] = node.nodeValue ?? '';
+        nativeLang[options.pageLanguage] = node.nodeValue ?? ''; // TODO: something else depending on type field
         const nativeStatus: TranslationStatusMap = {};
         nativeStatus[options.pageLanguage] = TranslationStatus.Translated;
 
@@ -295,7 +345,8 @@ export function Dropdown(props: { options: DropdownOptions }) {
           translationStatus: nativeStatus,
           node,
           isIntersecting: false,
-          nearestVisibleAncestor: ancestor
+          nearestVisibleAncestor: ancestor,
+          // TODO: set some properties that distinguish text nodes from attribute nodes
         }
       }));
     }
@@ -365,7 +416,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
             for(let i = 0; i < results.length; i++) {
               // if "currentLanguage" is different from the dropdown setting
               if(results[i].currentLanguage !== language && results[i].translatedText[language] !== undefined) {
-                results[i].node.nodeValue = results[i].translatedText[language] ?? '';
+                results[i].node.nodeValue = results[i].translatedText[language] ?? ''; // TODO: do something different depending on type
                 results[i].currentLanguage = language;
               }
             }

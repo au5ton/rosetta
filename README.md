@@ -25,15 +25,15 @@ Technically, their widget [stills works if you have the code for it](https://www
 
 - Page prior to being discontinued:
 
-  https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/
+  [https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/](https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/)
 
 - Current page:
   
-  https://translate.google.com/intl/en/about/website/
+  [https://translate.google.com/intl/en/about/website/](https://translate.google.com/intl/en/about/website/)
 
 - Announcement of temporary support during the COVID-19 pandemic:
   
-  https://developers.google.com/search/blog/2020/05/google-translates-website-translator
+  [https://developers.google.com/search/blog/2020/05/google-translates-website-translator](https://developers.google.com/search/blog/2020/05/google-translates-website-translator)
 
 ## Goal
 

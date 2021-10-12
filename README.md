@@ -21,6 +21,20 @@ On December 4, 2019 Google discontinued its popular [Google Translate Widget](ht
 
 Technically, their widget [stills works if you have the code for it](https://www.w3schools.com/howto/howto_google_translate.asp), but there's no telling when it will stop working. As of June 23, 2021, their embeddable snippet is still working, even though the widget was discontinued in 2019.
 
+#### History
+
+- Page prior to being discontinued:
+
+  https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/
+
+- Current page:
+  
+  https://translate.google.com/intl/en/about/website/
+
+- Announcement of temporary support during the COVID-19 pandemic:
+  
+  https://developers.google.com/search/blog/2020/05/google-translates-website-translator
+
 ## Goal
 
 The goal of this project is to revive the simple "plug and play" usage of the legacy Google Translate Widget, but to make its functionality future-proof and transferable to other translation API providers.

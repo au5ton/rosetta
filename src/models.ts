@@ -32,4 +32,5 @@ export interface TranslatedNode {
   node: Node;
   isIntersecting: boolean;
   nearestVisibleAncestor: HTMLElement | null;
+  attribute: string;
 }

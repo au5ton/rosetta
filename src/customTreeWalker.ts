@@ -13,12 +13,12 @@ export class CustomTreeWalker {
     this.customFilter = {
       /**
        * FILTER_ACCEPT 	Value returned by the NodeFilter.acceptNode() method when a node should be accepted.
-       * 
+       *
        * FILTER_REJECT 	Value to be returned by the NodeFilter.acceptNode() method when a node should be rejected. For TreeWalker, child nodes are also rejected.
-       * 
+       *
        * FILTER_SKIP 	  Value to be returned by NodeFilter.acceptNode() for nodes to be skipped by the NodeIterator or TreeWalker object.
        *                The children of skipped nodes are still considered. This is treated as "skip this node but not its children".
-       * @param node 
+       * @param node
        */
       acceptNode(node: Node): number {
         // skip parents with `.skiptranslate`
@@ -41,6 +41,14 @@ export class CustomTreeWalker {
             return NodeFilter.FILTER_REJECT
           }
         }
+        if (node instanceof HTMLElement && options.includedAttributes.length > 0) {
+          for(let attrName of options.includedAttributes) {
+            // If node has the included attribute, accept it
+            if(node.hasAttribute(attrName)) {
+              return NodeFilter.FILTER_ACCEPT
+            }
+          }
+        }
         // skip nodes that have children
         if(node.childNodes.length > 0) {
           return NodeFilter.FILTER_SKIP
@@ -57,8 +65,11 @@ export class CustomTreeWalker {
         if(node.parentNode && forbiddenTags.includes(node.parentNode.nodeName.toLocaleLowerCase())) {
           return NodeFilter.FILTER_REJECT
         }
-        // accept others
-        return NodeFilter.FILTER_ACCEPT
+        // If this is a TEXT_NODE, accept
+        if (node.nodeType === Node.TEXT_NODE) {
+          return NodeFilter.FILTER_ACCEPT
+        }
+        return NodeFilter.FILTER_REJECT
       }
     };
   }
@@ -66,8 +77,8 @@ export class CustomTreeWalker {
   /**
    * From: https://stackoverflow.com/a/10730777
    */
-  textNodesUnder(el: Node) {
-    var n, a=[], walk=document.createTreeWalker(el, NodeFilter.SHOW_TEXT, this.customFilter);
+  validNodesUnder(el: Node) {
+    var n, a=[], walk=document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, this.customFilter);
     while(n=walk.nextNode()) a.push(n);
     return a;
   }

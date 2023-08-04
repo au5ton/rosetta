@@ -14,10 +14,10 @@ export function getFlagEmoji(countryCode: string) {
  * From: https://stackoverflow.com/a/37826698
  */
 export function chunkedArray<T>(inputArray: T[], perChunk: number): T[][] {
-  // var perChunk = 2 // items per chunk    
+  // var perChunk = 2 // items per chunk
   // var inputArray = ['a','b','c','d','e']
 
-  var result = inputArray.reduce<T[][]>((resultArray, item, index) => { 
+  var result = inputArray.reduce<T[][]>((resultArray, item, index) => {
     const chunkIndex = Math.floor(index/perChunk)
 
     if(!resultArray[chunkIndex]) {
@@ -67,9 +67,15 @@ export function existsInside<T>(array: T[], predicate: (value: T, index: number,
 }
 
 export async function translate(endpoint: string, text: string[], from: string, to: string, siteName: string): Promise<string[]> {
-  const res = await fetch(`${endpoint}?from=${from}&to=${to}&siteName=${siteName}`, {
+  const res = await fetch(endpoint, {
     method: 'POST',
-    body: JSON.stringify(text),
+    body:  JSON.stringify({
+      'from': from,
+      'to': to,
+      'siteName': siteName,
+      'text': text,
+      'page_url': window.location.href,
+    }),
     headers: {
       'Content-Type': 'application/json'
     },
@@ -81,5 +87,33 @@ export async function translate(endpoint: string, text: string[], from: string, 
   }
   else {
     throw `Data returned from endpoint was not of type string[] (Endpoint: ${endpoint}), data: ${JSON.stringify(data)}`
+  }
+}
+
+
+export async function update_translation(endpoint: string, originalText: string, text: string, from: string, to: string, siteName: string): Promise<boolean> {
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    body: JSON.stringify({
+      'from': from,
+      'to': to,
+      'siteName': siteName,
+      'originalText': originalText,
+      'text': text
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+  const data = await res.json();
+  if (!("status" in data)){
+    throw `Invalid data returned from endpoint (Endpoint: ${endpoint}), data: ${JSON.stringify(data)}`
+  }
+
+  if(data.status == 'Success') {
+    return true;
+  }
+  else {
+    return false;
   }
 }

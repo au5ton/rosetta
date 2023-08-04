@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import ReactDOM, { createPortal } from 'react-dom'
 import { css } from '@emotion/css'
 import useSWR from 'swr'
 import { useMutationObserver, useSessionstorage } from 'rooks'
 import { Banner } from './Banner'
 import { SupportedLanguage, TranslatedNode, TranslatedTextMap, TranslationStatus, TranslationStatusMap } from './models'
 import { DropdownOptions } from './options'
-import { chunkedArray, existsInside, translate } from './util'
+import { chunkedArray, existsInside, translate, update_translation } from './util'
 import { CustomTreeWalker, getNearestVisibleAncestor } from './customTreeWalker'
+import { EditTranslationComponent } from './EditTranslation'
 
 const styles = {
   wrap: css`
@@ -19,6 +20,9 @@ const styles = {
   `,
   attribution: css`
     width: 100%;
+  `,
+  inline_edit: css`
+    border: 3px dotted #dd6e6e;
   `
 };
 
@@ -38,6 +42,127 @@ export function Dropdown(props: { options: DropdownOptions }) {
   const htmlRef = useRef(document.querySelector('html'));
   const [lastLanguage, setLastLanguage] = useSessionstorage('@au5ton/translate-widget/lastLanguage');
   const [customTreeWalker, _] = useState(new CustomTreeWalker(options));
+
+  const preventLinksRedirecting = (event:Event) => {
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  const handleSaveTranslation = async (text:string, initialText:string, targetElement:HTMLElement) => {
+    if (options.verboseOutput){
+      console.log('English version:', targetElement.dataset.originalText);
+      console.log('Automatic translation:', initialText);
+      console.log('Manually updated translation:', text);
+    }
+    const originalText = targetElement.dataset.originalText ?? '';
+    const targetLang = targetElement.dataset.targetLang ?? '';
+    const result = await update_translation(options.endpoints.updateTranslation, originalText, text, options.pageLanguage, targetLang, options.siteName);
+    if (result) {
+      ReactDOM.unmountComponentAtNode(targetElement);
+      targetElement.classList.add('skiptranslate');
+      targetElement.textContent = text;
+      targetElement.removeEventListener('click', preventLinksRedirecting);
+    }
+  };
+
+  const handleCancelTranslation = (initialText:string, targetElement:HTMLElement) => {
+    ReactDOM.unmountComponentAtNode(targetElement);
+    targetElement.classList.add('skiptranslate');
+    targetElement.textContent = initialText;
+    targetElement.removeEventListener('click', preventLinksRedirecting);
+  };
+
+  const createEditButton = (handler:(targetElement:HTMLElement) => void, targetElement:HTMLElement) => {
+    const buttonId = `editButton_${Date.now()}`; // Generate unique ID
+    const button = document.createElement('button');
+    button.id = buttonId;
+    button.classList.add('btn', 'btn-primary', 'skiptranslate');
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('width', '16');
+    svg.setAttribute('height', '16');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('class', 'plone-icon me-1 bi bi-pencil');
+    svg.setAttribute('viewBox', '0 0 16 16');
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute(
+      'd',
+      'M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'
+    );
+
+    svg.appendChild(path);
+
+    button.appendChild(svg);
+
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      handler(targetElement);
+    });
+
+    return { id: buttonId, button };
+  };
+
+  const handleClickEdit = (targetElement:HTMLElement) => {
+    const { width, height } = targetElement.getBoundingClientRect();
+    const textContent = targetElement.textContent ?? '';
+    targetElement.classList.remove(styles.inline_edit);
+
+    ReactDOM.render(
+        <EditTranslationComponent
+        initialText={ textContent }
+        targetElement={targetElement}
+        initWidth={width}
+        initHeight={height}
+        onSave={handleSaveTranslation}
+        onCancel={handleCancelTranslation}
+      />,
+      targetElement
+    );
+    const textarea = targetElement.querySelector('textarea');
+    if (textarea) {
+      textarea.focus();
+    }
+  };
+
+  const handleHoverIn = (event:MouseEvent) => {
+    if (options.endpoints.updateTranslation == ''){
+      return;
+    }
+
+    if (!event.ctrlKey) {
+      return; // Skip if "Ctrl" key is not pressed
+    }
+
+    const targetElement = event.target;
+    if (targetElement instanceof HTMLElement){
+      const { id, button } = createEditButton(handleClickEdit, targetElement);
+      targetElement.classList.add(styles.inline_edit);
+      targetElement.appendChild(button);
+      targetElement.addEventListener('click', preventLinksRedirecting);
+
+      // Store the button ID for later reference
+      targetElement.dataset.editButtonId = id;
+    }
+  };
+
+  const handleHoverOut = (event:MouseEvent) => {
+    const targetElement = event.target;
+    if (targetElement instanceof HTMLElement){
+      const buttonId = targetElement.dataset.editButtonId;
+      if (buttonId) {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.remove();
+        }
+        delete targetElement.dataset.editButtonId;
+        targetElement.classList.remove(styles.inline_edit);
+        targetElement.removeEventListener('click', preventLinksRedirecting);
+      }
+    }
+  };
 
   // Only run on first mount
   useEffect(() => {
@@ -108,7 +233,17 @@ export function Dropdown(props: { options: DropdownOptions }) {
                     const ancestor = getNearestVisibleAncestor(node);
 
                     // add to intersection observer
-                    if(ancestor) intersectionObserver.current.observe(ancestor);
+                    if(ancestor){
+                      intersectionObserver.current.observe(ancestor);
+                      if (options.endpoints.updateTranslation !== ''){
+                        // Only add ability to edit translation on non attribute nodes
+                        ancestor.dataset.originalText = originalText;
+                        ancestor.removeEventListener('mouseenter', handleHoverIn);
+                        ancestor.removeEventListener('mouseleave', handleHoverOut);
+                        ancestor.addEventListener('mouseenter', handleHoverIn);
+                        ancestor.addEventListener('mouseleave', handleHoverOut);
+                      }
+                    }
 
                     result.push({
                       originalText: originalText,
@@ -173,7 +308,17 @@ export function Dropdown(props: { options: DropdownOptions }) {
                       const ancestor = getNearestVisibleAncestor(child);
 
                       // add to intersection observer
-                      if(ancestor) intersectionObserver.current.observe(ancestor);
+                      if(ancestor){
+                        intersectionObserver.current.observe(ancestor);
+                        if (options.endpoints.updateTranslation !== ''){
+                          // Only add ability to edit translation on non attribute nodes
+                          ancestor.dataset.originalText = originalText;
+                          ancestor.removeEventListener('mouseenter', handleHoverIn);
+                          ancestor.removeEventListener('mouseleave', handleHoverOut);
+                          ancestor.addEventListener('mouseenter', handleHoverIn);
+                          ancestor.addEventListener('mouseleave', handleHoverOut);
+                        }
+                      }
 
                       result.push({
                         originalText: originalText,
@@ -390,7 +535,17 @@ export function Dropdown(props: { options: DropdownOptions }) {
             const ancestor = getNearestVisibleAncestor(node);
 
             // add to intersection observer
-            if(ancestor) intersectionObserver.current.observe(ancestor);
+            if(ancestor){
+              intersectionObserver.current.observe(ancestor);
+              if (options.endpoints.updateTranslation !== ''){
+                // Only add ability to edit translation on non attribute nodes
+                ancestor.dataset.originalText = originalText;
+                ancestor.removeEventListener('mouseenter', handleHoverIn);
+                ancestor.removeEventListener('mouseleave', handleHoverOut);
+                ancestor.addEventListener('mouseenter', handleHoverIn);
+                ancestor.addEventListener('mouseleave', handleHoverOut);
+              }
+            }
 
             setTranslatedNodes( prevList => [...prevList, {
               originalText: originalText,
@@ -501,6 +656,9 @@ export function Dropdown(props: { options: DropdownOptions }) {
                 results[i].currentLanguage = language;
                 if (results[i].attribute === "_text_"){
                   results[i].node.nodeValue = results[i].translatedText[language] ?? ''; // TODO: do something different depending on type
+                  if (results[i].nearestVisibleAncestor !== null && options.endpoints.updateTranslation !== ''){
+                    results[i].nearestVisibleAncestor.dataset.targetLang = language ?? '';
+                  }
                 } else {
                   let node = results[i].node;
                   if (node instanceof Element){

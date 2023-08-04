@@ -26,6 +26,7 @@ export function initHook(args: any, mountLocation: string) {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'
       supportedLanguages: extract(args, ['endpoints', 'supportedLanguages'], 'https://google-translate-sample.vercel.app/api/legacy/supportedLanguages'),
+      updateTranslation: extract(args, ['endpoints', 'updateTranslation'], ''),
       translate: extract(args, ['endpoints', 'translate'], 'https://google-translate-sample.vercel.app/api/legacy/translate')
     }
   };

@@ -35,18 +35,18 @@ export interface DropdownOptions {
    */
   ignoreIntersection: boolean;
   /**
-   * Classes to ignore when translating. Useful for specifing other widgets or third-party sections 
+   * Classes to ignore when translating. Useful for specifing other widgets or third-party sections
    * where adding the ".skiptranslate" class is impractical.
-   * 
-   * Example: 
+   *
+   * Example:
    *  Ignore Google Place Autocomplete popovers
    *  ['pac-container', 'pac-logo']
    */
   ignoreClasses: string[];
   /**
-   * Selectors to ignore when translating. Useful for specifing other widgets or third-party sections 
+   * Selectors to ignore when translating. Useful for specifing other widgets or third-party sections
    * where adding the ".skiptranslate" class is impractical.
-   * 
+   *
    * uses Element.matches() on candidate nodes
    * see: https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
    */
@@ -64,11 +64,21 @@ export interface DropdownOptions {
    * Used for specifying custom buttons which appear at the top right
    * of the banner next to the "close" button. Useful for providing
    * a better UX such as custom instructions or functionality.
-   * 
+   *
    * Some pre-included icons are 'help' or 'info', otherwise include
    * a URL to an image.
    */
   buttons: BannerButton[];
+  /**
+   * List attributes in elements to be included in the translation
+   *
+   * Example:
+   *  ['title', 'alt']
+   *
+   * Defaults to:
+   *  ['title', 'placeholder', 'alt']
+   */
+  includedAttributes: string[];
   /**
    * URL of the endpoints for the API backing this widget
    */

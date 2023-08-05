@@ -84,6 +84,7 @@ export interface DropdownOptions {
    */
   endpoints: {
     supportedLanguages: string;
+    updateTranslation: string;
     translate: string;
   }
 }

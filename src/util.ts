@@ -99,7 +99,8 @@ export async function update_translation(endpoint: string, originalText: string,
       'to': to,
       'siteName': siteName,
       'originalText': originalText,
-      'text': text
+      'text': text,
+      'page_url': window.location.href,
     }),
     headers: {
       'Content-Type': 'application/json'

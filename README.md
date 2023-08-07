@@ -28,11 +28,11 @@ Technically, their widget [stills works if you have the code for it](https://www
   [https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/](https://web.archive.org/web/20180801033735/https://translate.google.com/manager/website/)
 
 - Current page:
-  
+
   [https://translate.google.com/intl/en/about/website/](https://translate.google.com/intl/en/about/website/)
 
 - Announcement of temporary support during the COVID-19 pandemic:
-  
+
   [https://developers.google.com/search/blog/2020/05/google-translates-website-translator](https://developers.google.com/search/blog/2020/05/google-translates-website-translator)
 
 ## Goal
@@ -116,6 +116,11 @@ For a complete list of options and what they do, see [options.ts](src/options.ts
   </script>
   <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.5.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
+
+### Update translations in back-end
+
+The translation UI supports updating the translations in the back-end if an optional `updateTranslation` endpoint is provided. The idea is that the back-end caches the translations, and so the website maintainer can update these translations. If this `updateTranslation` endpoint is provided, then by hovering over the translations with the `Ctrl` key pressed, you will get a button to edit a translation.
+There's more information in [This issue](https://github.com/au5ton/rosetta/pull/32).
 
 ### Back-end
 

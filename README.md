@@ -117,6 +117,10 @@ For a complete list of options and what they do, see [options.ts](src/options.ts
   <script src="https://cdn.jsdelivr.net/gh/au5ton/rosetta@0.5.1/dist/index.js" onload="widgetTranslateElementInit()"></script>
 ```
 
+### Translate attributes
+
+In addition to visible text, rosetta can also translate attributes in tags, such as `title` on `<img>` and so on. The list of attributes can be specified with the `includedAttributes` option. It defaults to `title`, `placeholder` and `alt`.
+
 ### Update translations in back-end
 
 The translation UI supports updating the translations in the back-end if an optional `updateTranslation` endpoint is provided. The idea is that the back-end caches the translations, and so the website maintainer can update these translations. If this `updateTranslation` endpoint is provided, then by hovering over the translations with the `Ctrl` key pressed, you will get a button to edit a translation.

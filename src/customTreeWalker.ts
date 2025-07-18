@@ -21,6 +21,10 @@ export class CustomTreeWalker {
        * @param node
        */
       acceptNode(node: Node): number {
+        // skip comment nodes
+        if (node.nodeType === Node.COMMENT_NODE) {
+          return NodeFilter.FILTER_REJECT;
+        }
         // skip parents with `.skiptranslate`
         if(anyParentSatisfies(node, e => typeof e.className === 'string' && e.className.includes('skiptranslate'))) {
           return NodeFilter.FILTER_REJECT

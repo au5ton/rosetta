@@ -29,6 +29,10 @@ export class CustomTreeWalker {
         if (anyParentSatisfies(node, e => e instanceof Element && e.getAttribute('aria-hidden') === "true")) {
           return NodeFilter.FILTER_REJECT;
         }
+        // skip elements with translate="no" and their children
+        if (anyParentSatisfies(node, e => e instanceof Element && e.getAttribute('translate') === "no")) {
+          return NodeFilter.FILTER_REJECT;
+        }
         // skip parents with `.skiptranslate`
         if(anyParentSatisfies(node, e => typeof e.className === 'string' && e.className.includes('skiptranslate'))) {
           return NodeFilter.FILTER_REJECT

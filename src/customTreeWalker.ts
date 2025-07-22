@@ -26,7 +26,7 @@ export class CustomTreeWalker {
           return NodeFilter.FILTER_REJECT;
         }
         // skip elements with aria-hidden and their children
-        if (anyParentSatisfies(node, e => e instanceof Element && e.hasAttribute('aria-hidden'))) {
+        if (anyParentSatisfies(node, e => e instanceof Element && e.getAttribute('aria-hidden') === "true")) {
           return NodeFilter.FILTER_REJECT;
         }
         // skip parents with `.skiptranslate`

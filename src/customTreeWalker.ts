@@ -1,7 +1,7 @@
 
 import { DropdownOptions } from './options'
 
-export const forbiddenTags = ['script', 'style', 'pre', 'kbd'];
+export const forbiddenTags = ['script', 'style', 'pre', 'kbd', 'i', 'iframe', 'svg', 'code', 'samp', 'var', 'noscript', 'template', 'time', 'math', 'canvas', 'data', 'output', 'meter', 'progress', 'slot'];
 export const regexOnlyWhitespace = /^[\s]*$/;
 export const regexOnlyDigitsWhiteSpacePunctuation = /^[\d\s!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]*$/;
 
@@ -23,6 +23,10 @@ export class CustomTreeWalker {
       acceptNode(node: Node): number {
         // skip comment nodes
         if (node.nodeType === Node.COMMENT_NODE) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        // skip elements with aria-hidden and their children
+        if (anyParentSatisfies(node, e => e instanceof Element && e.hasAttribute('aria-hidden'))) {
           return NodeFilter.FILTER_REJECT;
         }
         // skip parents with `.skiptranslate`

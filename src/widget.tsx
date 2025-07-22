@@ -31,7 +31,9 @@ export function initHook(args: any, mountLocation: string) {
     }
   };
   // for debugging
-  console.log(options)
+  if(options.verboseOutput) {
+    console.log(options)
+  }
   // Check if real endpoints were provided
   if(options.endpoints.supportedLanguages === '') throw `Improper supportedLanguages endpoint provided: '${options.endpoints.supportedLanguages}'`;
   if(options.endpoints.translate === '') throw `Improper translate endpoint provided: '${options.endpoints.translate}'`;

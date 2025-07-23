@@ -28,6 +28,14 @@ paths:
               $ref: '#/components/schemas/Translate'
         required: true
       responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TranslatedText'
         405:
           description: Invalid input
           content: {}
@@ -119,6 +127,9 @@ components:
           type: string
         displayName:
           type: string
+    TranslatedText:
+      type: string
+      description: A translated text string
     updateTranslation:
       properties:
         from:

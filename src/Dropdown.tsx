@@ -505,7 +505,7 @@ export function Dropdown(props: { options: DropdownOptions }) {
     if(options.verboseOutput) console.log('language changed')
     if(language !== '' && options.pageLanguage !== language) {
       setShowBanner(true);
-      if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', `${language}-x-mtfrom-${options.pageLanguage}`);
+      if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', language);
     }
     else {
       if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', options.pageLanguage);

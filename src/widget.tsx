@@ -22,6 +22,7 @@ export function initHook(args: any, mountLocation: string) {
     updateDocumentLanguageAttribute: extract(args, 'updateDocumentLanguageAttribute', false),
     buttons: extract(args, 'buttons', []),
     includedAttributes: extract(args, 'includedAttributes', ['title', 'placeholder', 'alt']),
+    showBanner: extract(args, 'showBanner', true),
     endpoints: {
       //supportedLanguages: 'http://wlinux.wsl:3000/api/v3/supportedLanguages',
       //translate: 'http://wlinux.wsl:3000/api/v3/translate'

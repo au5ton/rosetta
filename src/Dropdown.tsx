@@ -504,7 +504,9 @@ export function Dropdown(props: { options: DropdownOptions }) {
   useEffect(() => {
     if(options.verboseOutput) console.log('language changed')
     if(language !== '' && options.pageLanguage !== language) {
-      setShowBanner(true);
+      if(options.showBanner) {
+        setShowBanner(true);
+      }
       if(options.updateDocumentLanguageAttribute) htmlRef.current?.setAttribute('lang', language);
     }
     else {

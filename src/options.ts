@@ -80,6 +80,12 @@ export interface DropdownOptions {
    */
   includedAttributes: string[];
   /**
+   * Should the banner be displayed when a language is selected?
+   * Set to false to hide the banner completely.
+   * Defaults to true.
+   */
+  showBanner: boolean;
+  /**
    * URL of the endpoints for the API backing this widget
    */
   endpoints: {

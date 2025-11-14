@@ -107,6 +107,8 @@ For a complete list of options and what they do, see [options.ts](src/options.ts
         // List of CSS classes to ignore when translating
         // Example: Ignore Google Place Autocomplete popovers
         // ignoreClasses: ['pac-container', 'pac-logo'],
+        // Add this to hide the translation banner
+        // showBanner: false,
         endpoints: {
           supportedLanguages: 'https://rosetta-demo-server.vercel.app/api/v3/supportedLanguages',
           translate: 'https://rosetta-demo-server.vercel.app/api/v3/translate'

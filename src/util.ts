@@ -85,8 +85,12 @@ export async function translate(endpoint: string, text: string[], from: string, 
   if(Array.isArray(data) && data.every(e => typeof e === 'string')) {
     return data
   }
+  // Handle Microsoft Translator API format: [{ translations: [{ text: string, to: string }] }]
+  else if(Array.isArray(data) && data.length > 0 && typeof data[0] === 'object' && data[0].translations) {
+    return data.map((item: any) => item.translations[0]?.text).filter((t: string | undefined) => t !== undefined)
+  }
   else {
-    throw `Data returned from endpoint was not of type string[] (Endpoint: ${endpoint}), data: ${JSON.stringify(data)}`
+    throw `Data returned from endpoint was not of expected format (Endpoint: ${endpoint}), data: ${JSON.stringify(data)}`
   }
 }
 
